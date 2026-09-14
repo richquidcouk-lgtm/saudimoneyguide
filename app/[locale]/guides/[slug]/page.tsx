@@ -6,8 +6,9 @@ import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/routing";
 import { getAllGuideSlugs, getAllGuides, getGuideBySlug } from "@/lib/guides";
-import { mdxComponents } from "@/components/mdx-components";
-import { buildAlternates } from "@/lib/seo";
+import { getMdxComponents } from "@/components/mdx-components";
+import { buildAlternatesFromMap } from "@/lib/seo";
+import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/schema";
 
 export function generateStaticParams() {
   const locales: Locale[] = ["en", "ar"];
@@ -26,15 +27,14 @@ export async function generateMetadata({
   if (!guide) return {};
 
   // Only advertise an hreflang alternate for a locale if this exact slug
-  // also exists there — guides don't always publish in both languages
-  // at the same time.
-  const availableLocales: Locale[] = (["en", "ar"] as Locale[]).filter(
-    (l) => getGuideBySlug(l, slug) !== null,
-  );
-  const alternates =
-    availableLocales.length > 1
-      ? buildAlternates(`/guides/${slug}`)
-      : undefined;
+  // also exists there — guides don't always publish in both languages at
+  // the same time. Every guide still gets a self-referencing canonical
+  // regardless, even when it's the only language it's published in.
+  const pathsByLocale: Partial<Record<Locale, string>> = {};
+  for (const l of ["en", "ar"] as Locale[]) {
+    if (getGuideBySlug(l, slug) !== null) pathsByLocale[l] = `/guides/${slug}`;
+  }
+  const alternates = buildAlternatesFromMap(pathsByLocale, locale as Locale);
 
   return {
     title: guide.title,
@@ -61,8 +61,33 @@ export default async function GuidePage({
     .filter((g) => g.slug !== slug)
     .slice(0, 3);
 
+  const articleSchema = buildArticleSchema({
+    title: guide.title,
+    description: guide.description,
+    slug: guide.slug,
+    author: guide.author,
+    publishedAt: guide.publishedAt,
+    locale,
+  });
+  const breadcrumbSchema = buildBreadcrumbSchema(
+    [
+      { name: locale === "ar" ? "الرئيسية" : "Home", path: "" },
+      { name: locale === "ar" ? "الأدلة" : "Guides", path: "/guides" },
+      { name: guide.title, path: `/guides/${guide.slug}` },
+    ],
+    locale,
+  );
+
   return (
     <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <header className="border-b border-[var(--rule)] pb-6">
         <h1 className="text-3xl font-extrabold leading-tight text-[var(--ink)]">
           {guide.title}
@@ -76,7 +101,7 @@ export default async function GuidePage({
       <div className="mt-6">
         <MDXRemote
           source={guide.content}
-          components={mdxComponents}
+          components={getMdxComponents(locale)}
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],

@@ -1,7 +1,23 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import GuideCard from "@/components/GuideCard";
 import { getAllGuides } from "@/lib/guides";
+import { buildAlternates } from "@/lib/seo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "guides" });
+  return {
+    title: t("title"),
+    description: t("subtitle"),
+    alternates: buildAlternates("/guides", locale as Locale),
+  };
+}
 
 export default async function GuidesIndexPage({
   params,

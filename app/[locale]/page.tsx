@@ -7,6 +7,7 @@ import FAQ from "@/components/FAQ";
 import EmailForm from "@/components/EmailForm";
 import { getAllGuides } from "@/lib/guides";
 import { buildAlternates } from "@/lib/seo";
+import { TOOLS } from "@/lib/tools-data";
 
 export async function generateMetadata({
   params,
@@ -15,7 +16,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "site" });
-  const alternates = buildAlternates("");
+  const alternates = buildAlternates("", locale as Locale);
 
   return {
     title: t("name"),
@@ -69,6 +70,29 @@ export default async function HomePage({
           </div>
         </section>
       )}
+
+      {/* Featured tools */}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <h2 className="text-2xl font-extrabold text-[var(--ink)]">
+          {locale === "ar" ? "أدوات مالية مجانية" : "Free Financial Tools"}
+        </h2>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {TOOLS.slice(0, 6).map((tool) => (
+            <Link
+              key={tool.slug}
+              href={`/tools/${tool.slug}`}
+              className="group flex flex-col rounded-xl border border-[var(--rule)] bg-white p-5 transition-shadow hover:shadow-md"
+            >
+              <h3 className="text-base font-bold text-[var(--ink)] group-hover:text-[var(--teal)]">
+                {locale === "ar" ? tool.titleAr : tool.titleEn}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--ink-3)]">
+                {locale === "ar" ? tool.descriptionAr : tool.descriptionEn}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Benefits */}
       <section className="bg-[var(--paper)] py-16">

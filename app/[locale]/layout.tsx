@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { buildOrganizationSchema } from "@/lib/schema";
 import "../globals.css";
 
 const inter = Inter({
@@ -62,6 +63,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={dir}>
       <body className={`${inter.variable} ${cairo.variable} antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildOrganizationSchema()) }}
+        />
         <NextIntlClientProvider>
           <Header />
           <main>{children}</main>
