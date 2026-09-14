@@ -1,0 +1,87 @@
+{
+  "site": {
+    "name": "Saudi Money Guide",
+    "tagline": "Your trusted guide to Saudi personal finance"
+  },
+  "nav": {
+    "home": "Home",
+    "guides": "Guides",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "language": {
+    "switchTo": "العربية"
+  },
+  "hero": {
+    "title": "Your trusted guide to Saudi personal finance",
+    "subtitle": "Free, bilingual guides on loans, BNPL, credit scores and Islamic finance — written for Saudi Arabia, not translated from somewhere else.",
+    "cta": "Explore Guides"
+  },
+  "featured": {
+    "title": "Featured Guides",
+    "readMore": "Read guide"
+  },
+  "benefits": {
+    "title": "Why Saudi Money Guide",
+    "items": [
+      {
+        "title": "Saudi-exclusive",
+        "description": "Every guide is written for the Saudi market specifically — SIMAH, Islamic finance, and local banks — not a generic global template."
+      },
+      {
+        "title": "Bilingual from day one",
+        "description": "Full guides in both English and Arabic, so expats and locals get the same depth of information."
+      },
+      {
+        "title": "Free and unbiased",
+        "description": "No paywalls. We earn a commission when you apply through our links, but the guides are written to help you decide, not to sell."
+      }
+    ]
+  },
+  "newsletter": {
+    "title": "Get new guides by email",
+    "subtitle": "One email when we publish something new. No spam.",
+    "placeholder": "you@example.com",
+    "submit": "Subscribe",
+    "success": "Check your email to confirm.",
+    "error": "Something went wrong. Please try again."
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "Is Saudi Money Guide free to use?",
+        "answer": "Yes, every guide is completely free. We earn a commission when readers apply for a product through our links, at no extra cost to you."
+      },
+      {
+        "question": "Are the guides available in Arabic?",
+        "answer": "Yes. Every guide is published in both English and Arabic, written and localized for a Saudi audience rather than machine-translated."
+      },
+      {
+        "question": "Do you recommend specific banks or apps?",
+        "answer": "We compare the main options available in Saudi Arabia and explain the trade-offs so you can choose what fits your situation — we don't push a single product."
+      },
+      {
+        "question": "How often is content updated?",
+        "answer": "We review and update guides regularly as rates, terms and providers change."
+      },
+      {
+        "question": "Who runs Saudi Money Guide?",
+        "answer": "Saudi Money Guide is an independent personal finance publisher focused exclusively on the Saudi market."
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "Independent, bilingual personal finance guides for Saudi Arabia.",
+    "links": "Links",
+    "privacy": "Privacy Policy",
+    "about": "About",
+    "contact": "Contact",
+    "rights": "All rights reserved."
+  },
+  "guides": {
+    "title": "All Guides",
+    "subtitle": "Free, bilingual guides on personal finance in Saudi Arabia.",
+    "empty": "No guides published yet — check back soon."
+  }
+}

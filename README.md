@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Saudi Money Guide
 
-## Getting Started
+Bilingual (English + Arabic) personal finance affiliate site for Saudi Arabia. Next.js 16 App Router, `next-intl` for i18n/RTL, MDX guides, Vercel deployment.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Turbopack)
+- **next-intl** — locale routing (`/en`, `/ar`), RTL, translations
+- **Tailwind CSS v4**
+- **next-mdx-remote** — guide content compiled from `content/guides/{locale}/{slug}.mdx`
+- **gray-matter** — MDX frontmatter parsing
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` — it redirects to `/en` or `/ar` based on browser language.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Adding a guide
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Write English content in `content/guides/en/{slug}.mdx`.
+2. Write the Arabic version in `content/guides/ar/{slug}.mdx` — **use the same
+   ASCII slug** as the English file (e.g. both named `simah-guide.mdx`), not a
+   translated Arabic slug. Non-ASCII characters in the URL path broke Next's
+   dynamic routing in testing (confirmed 404s even with correctly
+   percent-encoded requests) — the Arabic *title* and all page content is
+   still fully Arabic, only the URL segment stays Latin script. This also
+   means both language versions automatically get linked via hreflang.
+3. Required frontmatter: `title`, `description`, `keywords`, `author`,
+   `publishedAt`, `slug` (matching the filename).
+4. Available in MDX: `<AffiliateLink partnerId url text variant guideSlug />`
+   and `<Callout type="info|warning|tip">`. GFM tables and headings (with
+   auto-generated `id` anchors) work out of the box.
 
-## Learn More
+See `content/guides/en/test-guide.mdx` / `content/guides/ar/test-guide.mdx`
+for a working example — delete these once real guides are published.
 
-To learn more about Next.js, take a look at the following resources:
+## Environment variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Copy `.env.local.example` to `.env.local`. Everything works without any keys
+set (subscribe/track routes fall back to `console.log`); add real keys to
+actually deliver emails / forward affiliate events.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## What's not done yet
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This is the Day 1–5 foundation (routing, layout, homepage, MDX pipeline,
+affiliate + email API stubs, SEO plumbing). Not yet built:
+- Real guide content (5 EN + 5 AR cornerstone guides — see
+  `SMG_COMPLETE_INSTRUCTIONS.md` in the planning docs for the list)
+- Real affiliate partner integrations (currently logs locally; wire up
+  `AFFILIATE_TRACKING_WEBHOOK_URL`)
+- SendGrid account + template (currently logs locally; wire up
+  `SENDGRID_API_KEY` / `SENDGRID_LIST_ID`)
+- Analytics (Vercel Analytics / PostHog)
+- Real `about`/`contact`/`privacy` copy — these are placeholders
