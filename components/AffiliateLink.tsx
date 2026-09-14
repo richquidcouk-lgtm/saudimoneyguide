@@ -6,10 +6,10 @@ type Variant = "button" | "link" | "badge";
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   button:
-    "inline-flex items-center gap-2 rounded-lg bg-[var(--teal)] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[var(--teal-dark)]",
-  link: "font-semibold text-[var(--teal)] underline decoration-[var(--teal-soft)] underline-offset-2 hover:decoration-[var(--teal)]",
+    "inline-flex items-center gap-2 rounded-md bg-[var(--teal)] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[var(--teal-dark)]",
+  link: "font-semibold text-[var(--teal-dark)] underline decoration-[var(--rule-strong)] underline-offset-2 hover:decoration-[var(--teal-dark)]",
   badge:
-    "inline-flex items-center gap-1.5 rounded-full bg-[var(--gold-soft)] px-3 py-1 text-xs font-bold text-[var(--gold)]",
+    "inline-flex items-center gap-1.5 rounded-full bg-[var(--gold-soft)] px-3 py-1 text-xs font-bold text-[var(--gold-dark)]",
 };
 
 export default function AffiliateLink({

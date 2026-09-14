@@ -89,11 +89,12 @@ export default async function GuidePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <header className="border-b border-[var(--rule)] pb-6">
-        <h1 className="text-3xl font-extrabold leading-tight text-[var(--ink)]">
+        <p className="eyebrow">{locale === "ar" ? "دليل" : "Guide"}</p>
+        <h1 className="font-display mt-2 text-3xl font-semibold leading-tight text-[var(--ink)] sm:text-4xl">
           {guide.title}
         </h1>
         <p className="mt-3 text-[var(--ink-3)]">{guide.description}</p>
-        <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-[var(--ink-3)]">
+        <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-[var(--ink-4)]">
           {guide.author} · {guide.publishedAt}
         </p>
       </header>
@@ -113,13 +114,15 @@ export default async function GuidePage({
 
       {otherGuides.length > 0 && (
         <footer className="mt-16 border-t border-[var(--rule)] pt-8">
-          <h2 className="text-lg font-extrabold text-[var(--ink)]">More guides</h2>
+          <h2 className="font-display text-lg font-semibold text-[var(--ink)]">
+            {locale === "ar" ? "أدلة أخرى" : "More guides"}
+          </h2>
           <ul className="mt-4 flex flex-col gap-2">
             {otherGuides.map((g) => (
               <li key={g.slug}>
                 <a
                   href={`/${locale}/guides/${g.slug}`}
-                  className="font-semibold text-[var(--teal)] hover:underline"
+                  className="font-semibold text-[var(--teal-dark)] hover:underline"
                 >
                   {g.title}
                 </a>

@@ -8,7 +8,7 @@ export default function FAQ({ items }: { items: FAQItem[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="flex flex-col divide-y divide-[var(--rule)] rounded-xl border border-[var(--rule)] bg-white">
+    <div className="flex flex-col divide-y divide-[var(--rule)] rounded-lg border border-[var(--rule)] bg-[var(--paper)]">
       {items.map((item, i) => {
         const isOpen = openIndex === i;
         return (

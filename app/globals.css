@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F7F9F9;
-  --paper: #FFFFFF;
-  --ink: #0F1F2B;
-  --ink-2: #33454F;
-  --ink-3: #64767F;
-  --rule: #DCE3E3;
+  /* Warm paper tones instead of cool SaaS-grey — reads as an editorial
+     publication, not a generic dashboard template. */
+  --background: #F7F4EC;
+  --paper: #FFFDF8;
+  --ink: #14201B;
+  --ink-2: #38473F;
+  --ink-3: #667069;
+  --ink-4: #96A199;
+  --rule: #E2DBC8;
+  --rule-strong: #C9BD9E;
 
-  --teal: #0B6E63;
-  --teal-dark: #084F47;
-  --teal-soft: #E1F0ED;
+  --teal: #0B5D52;
+  --teal-dark: #073B34;
+  --teal-mid: #1F7A6B;
+  --teal-soft: #E4EFE9;
 
-  --gold: #B08D3F;
-  --gold-soft: #F3E8D2;
+  --gold: #A9803D;
+  --gold-dark: #7C5D28;
+  --gold-soft: #F1E6CB;
+
+  --burgundy: #6E2C2C;
+  --burgundy-soft: #F1DEDD;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--ink);
   --font-sans: var(--font-inter);
-  --font-arabic: var(--font-cairo);
+  --font-serif: var(--font-fraunces);
+  --font-arabic: var(--font-almarai);
+  --font-arabic-serif: var(--font-amiri);
 }
 
 body {
@@ -34,4 +45,38 @@ html[dir="rtl"] body {
 
 html[dir="ltr"] body {
   font-family: var(--font-sans), sans-serif;
+}
+
+/* Heading font: a warm, high-contrast serif for editorial authority.
+   Arabic headings use Amiri (a classical Naskh-style serif) instead of the
+   UI sans, for the same reason — headlines should feel considered, not
+   like the same typeface stretched across every element on the page. */
+.font-display {
+  font-family: var(--font-serif), Georgia, serif;
+}
+html[dir="rtl"] .font-display {
+  font-family: var(--font-arabic-serif), serif;
+  font-weight: 700;
+}
+
+.eyebrow {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+html[dir="rtl"] .eyebrow {
+  font-family: var(--font-arabic), sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.rule-hairline {
+  height: 1px;
+  background: linear-gradient(to right, var(--rule-strong), transparent);
+}
+html[dir="rtl"] .rule-hairline {
+  background: linear-gradient(to left, var(--rule-strong), transparent);
 }

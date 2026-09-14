@@ -45,7 +45,8 @@ export default async function ToolPage({
   return (
     <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <header className="border-b border-[var(--rule)] pb-6">
-        <h1 className="text-3xl font-extrabold leading-tight text-[var(--ink)]">
+        <p className="eyebrow">{locale === "ar" ? "أداة" : "Tool"}</p>
+        <h1 className="font-display mt-2 text-3xl font-semibold leading-tight text-[var(--ink)] sm:text-4xl">
           {locale === "ar" ? tool.titleAr : tool.titleEn}
         </h1>
         <p className="mt-3 text-[var(--ink-3)]">
@@ -53,7 +54,7 @@ export default async function ToolPage({
         </p>
       </header>
 
-      <div className="mt-8 rounded-2xl border border-[var(--rule)] bg-white p-6 sm:p-8">
+      <div className="mt-8 rounded-xl border border-[var(--rule)] bg-[var(--paper)] p-6 sm:p-8">
         <Calculator locale={locale} />
       </div>
     </section>

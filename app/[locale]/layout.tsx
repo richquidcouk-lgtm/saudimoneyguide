@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Cairo } from "next/font/google";
+import { Inter, Fraunces, Almarai, Amiri } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -15,10 +15,26 @@ const inter = Inter({
   display: "swap",
 });
 
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  variable: "--font-cairo",
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
   display: "swap",
+  weight: ["500", "600", "700"],
+  style: ["normal", "italic"],
+});
+
+const almarai = Almarai({
+  subsets: ["arabic"],
+  variable: "--font-almarai",
+  display: "swap",
+  weight: ["400", "700", "800"],
+});
+
+const amiri = Amiri({
+  subsets: ["arabic"],
+  variable: "--font-amiri",
+  display: "swap",
+  weight: ["400", "700"],
 });
 
 export function generateStaticParams() {
@@ -62,7 +78,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir}>
-      <body className={`${inter.variable} ${cairo.variable} antialiased`}>
+      <body
+        className={`${inter.variable} ${fraunces.variable} ${almarai.variable} ${amiri.variable} antialiased`}
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(buildOrganizationSchema()) }}

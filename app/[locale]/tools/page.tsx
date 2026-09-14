@@ -42,7 +42,10 @@ export default async function ToolsIndexPage({
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <h1 className="text-3xl font-extrabold text-[var(--ink)]">{c.title}</h1>
+      <p className="eyebrow">{locale === "ar" ? "بدون تسجيل" : "No Signup Required"}</p>
+      <h1 className="font-display mt-2 text-3xl font-semibold text-[var(--ink)] sm:text-4xl">
+        {c.title}
+      </h1>
       <p className="mt-2 max-w-2xl text-[var(--ink-3)]">{c.subtitle}</p>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -50,9 +53,9 @@ export default async function ToolsIndexPage({
           <Link
             key={tool.slug}
             href={`/tools/${tool.slug}`}
-            className="group flex flex-col rounded-xl border border-[var(--rule)] bg-white p-5 transition-shadow hover:shadow-md"
+            className="group flex flex-col rounded-lg border border-[var(--rule)] bg-[var(--paper)] p-5 transition-all hover:-translate-y-0.5 hover:border-[var(--teal-mid)] hover:shadow-[0_8px_24px_-12px_rgba(11,93,82,0.35)]"
           >
-            <h2 className="text-base font-bold text-[var(--ink)] group-hover:text-[var(--teal)]">
+            <h2 className="text-base font-bold text-[var(--ink)] group-hover:text-[var(--teal-dark)]">
               {locale === "ar" ? tool.titleAr : tool.titleEn}
             </h2>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--ink-3)]">

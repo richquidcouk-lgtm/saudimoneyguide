@@ -23,7 +23,7 @@ function LocaleAwareLink(
   return (
     <a
       href={resolvedHref}
-      className="font-semibold text-[var(--teal)] underline underline-offset-2"
+      className="font-semibold text-[var(--teal-dark)] underline decoration-[var(--rule-strong)] underline-offset-2 hover:decoration-[var(--teal-dark)]"
       {...(!isInternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       {...rest}
     />
@@ -35,10 +35,16 @@ export function getMdxComponents(locale: Locale): MDXComponents {
     AffiliateLink,
     Callout,
     h2: (props) => (
-      <h2 className="mt-10 scroll-mt-24 text-2xl font-extrabold text-[var(--ink)]" {...props} />
+      <h2
+        className="font-display mt-12 scroll-mt-24 text-2xl font-semibold text-[var(--ink)]"
+        {...props}
+      />
     ),
     h3: (props) => (
-      <h3 className="mt-8 scroll-mt-24 text-xl font-bold text-[var(--ink)]" {...props} />
+      <h3
+        className="font-display mt-8 scroll-mt-24 text-xl font-semibold text-[var(--ink)]"
+        {...props}
+      />
     ),
     p: (props) => <p className="mt-4 text-[15px] leading-relaxed text-[var(--ink-2)]" {...props} />,
     ul: (props) => (

@@ -33,7 +33,10 @@ export default async function GuidesIndexPage({
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <h1 className="text-3xl font-extrabold text-[var(--ink)]">{t("title")}</h1>
+      <p className="eyebrow">{locale === "ar" ? "المكتبة الكاملة" : "The Full Library"}</p>
+      <h1 className="font-display mt-2 text-3xl font-semibold text-[var(--ink)] sm:text-4xl">
+        {t("title")}
+      </h1>
       <p className="mt-2 max-w-2xl text-[var(--ink-3)]">{t("subtitle")}</p>
 
       {guides.length === 0 ? (

@@ -25,7 +25,8 @@ export default async function PrivacyPage({
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <h1 className="text-3xl font-extrabold text-[var(--ink)]">
+      <p className="eyebrow">{locale === "ar" ? "قانوني" : "Legal"}</p>
+      <h1 className="font-display mt-2 text-3xl font-semibold text-[var(--ink)] sm:text-4xl">
         {locale === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}
       </h1>
       <p className="mt-4 text-[15px] leading-relaxed text-[var(--ink-2)]">

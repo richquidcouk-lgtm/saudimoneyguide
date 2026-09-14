@@ -14,7 +14,7 @@ export function Field({
 }
 
 export const inputClass =
-  "w-full rounded-lg border border-[var(--rule)] bg-white px-3.5 py-2.5 text-sm text-[var(--ink)] focus:border-[var(--teal)] focus:outline-none";
+  "w-full rounded-md border border-[var(--rule)] bg-[var(--paper)] px-3.5 py-2.5 text-sm text-[var(--ink)] focus:border-[var(--teal)] focus:outline-none";
 
 export const selectClass = inputClass;
 
@@ -33,7 +33,7 @@ export function ResultRow({
       <span
         className={
           emphasize
-            ? "text-lg font-extrabold text-[var(--teal)]"
+            ? "font-display text-lg font-semibold text-[var(--teal-dark)]"
             : "text-sm font-bold text-[var(--ink)]"
         }
       >
