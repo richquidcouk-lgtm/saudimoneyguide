@@ -5,24 +5,24 @@ import { Field, inputClass, selectClass, ResultRow, ResultsCard, formatCurrency 
 
 const TEXT = {
   en: {
-    salary: "Last basic monthly salary (SAR)",
+    salary: "Last monthly wage — basic + fixed allowances (SAR)",
     years: "Years of service",
     reason: "Reason for leaving",
     resigned: "Resigned",
     terminated: "Terminated by employer",
     fullAmount: "Full gratuity (reference)",
     due: "Estimated gratuity due",
-    note: "Based on Saudi Labor Law Articles 84–87: half a month's wage per year for the first 5 years, then a full month's wage per year after that. Resignation reduces this — under 2 years: none, 2–5 years: 1/3, 5–10 years: 2/3, 10+ years: full amount. Termination by the employer (not for a disciplinary reason under Article 80) is normally paid in full. This is an estimate only — confirm your exact entitlement with the Ministry of Human Resources (Qiwa) or a labor lawyer, as contract terms and recent law changes can affect the calculation.",
+    note: "Based on Saudi Labor Law Articles 84–87: half a month's wage per year for the first 5 years, then a full month's wage per year after that. \"Wage\" here means your last basic salary plus any regular fixed allowances (e.g. housing, transport) — not basic salary alone. Resignation reduces this — under 2 years: none, 2–5 years: 1/3, 5–10 years: 2/3, 10+ years: full amount. Termination by the employer (not for a disciplinary reason under Article 80) is normally paid in full, and Article 87 grants the full amount regardless of tenure in specific cases (e.g. a female worker resigning within 6 months of marriage or 3 months of childbirth, or termination due to force majeure). This is an estimate only — confirm your exact entitlement with the Ministry of Human Resources (Qiwa) or a labor lawyer, as contract terms and recent law changes can affect the calculation.",
   },
   ar: {
-    salary: "آخر راتب أساسي شهري (ريال)",
+    salary: "آخر أجر شهري — الأساسي + البدلات الثابتة (ريال)",
     years: "سنوات الخدمة",
     reason: "سبب انتهاء الخدمة",
     resigned: "استقالة",
     terminated: "إنهاء الخدمة من صاحب العمل",
     fullAmount: "المكافأة الكاملة (مرجعية)",
     due: "المكافأة التقديرية المستحقة",
-    note: "بناءً على المواد 84–87 من نظام العمل السعودي: نصف أجر شهر عن كل سنة من السنوات الخمس الأولى، ثم أجر شهر كامل عن كل سنة بعدها. الاستقالة تُخفّض هذا المبلغ — أقل من سنتين: لا شيء، من 2 إلى 5 سنوات: الثلث، من 5 إلى 10 سنوات: الثلثان، 10 سنوات فأكثر: المبلغ كاملاً. إنهاء الخدمة من صاحب العمل (لغير الأسباب التأديبية بالمادة 80) يُدفع عادة كاملاً. هذا تقدير فقط — تأكد من استحقاقك الدقيق عبر وزارة الموارد البشرية (قوى) أو محامٍ متخصص في العمل، لأن بنود العقد والتعديلات الأخيرة على النظام قد تؤثر في الحساب.",
+    note: "بناءً على المواد 84–87 من نظام العمل السعودي: نصف أجر شهر عن كل سنة من السنوات الخمس الأولى، ثم أجر شهر كامل عن كل سنة بعدها. \"الأجر\" هنا يعني آخر راتب أساسي مضافًا إليه أي بدلات ثابتة منتظمة (كالسكن والنقل)، وليس الراتب الأساسي وحده. الاستقالة تُخفّض هذا المبلغ — أقل من سنتين: لا شيء، من 2 إلى 5 سنوات: الثلث، من 5 إلى 10 سنوات: الثلثان، 10 سنوات فأكثر: المبلغ كاملاً. إنهاء الخدمة من صاحب العمل (لغير الأسباب التأديبية بالمادة 80) يُدفع عادة كاملاً، وتمنح المادة 87 المكافأة كاملة بغض النظر عن مدة الخدمة في حالات محددة (مثل استقالة العاملة خلال 6 أشهر من الزواج أو 3 أشهر من الولادة، أو إنهاء الخدمة بسبب قوة قاهرة). هذا تقدير فقط — تأكد من استحقاقك الدقيق عبر وزارة الموارد البشرية (قوى) أو محامٍ متخصص في العمل، لأن بنود العقد والتعديلات الأخيرة على النظام قد تؤثر في الحساب.",
   },
 };
 

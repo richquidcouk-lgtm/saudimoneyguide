@@ -14,7 +14,7 @@ const TEXT = {
     gross: "Gross monthly salary",
     gosiAmount: "GOSI deduction",
     net: "Estimated take-home salary",
-    note: "GOSI (social insurance) deductions apply mainly to Saudi employees — pension plus unemployment insurance (SANED), typically deducted from basic salary only, not allowances. Non-Saudi employees usually have no employee-side GOSI deduction (only an employer-paid occupational hazards contribution, which doesn't reduce your salary). The percentage above is editable because exact rates change — confirm the current rate on gosi.gov.sa. This estimate doesn't include income tax, since Saudi Arabia does not levy personal income tax on employment salaries.",
+    note: "GOSI (social insurance) deductions apply mainly to Saudi employees — pension plus unemployment insurance (SANED). The contributory wage is capped at SAR 45,000/month, so very high earners see a smaller effective deduction than the flat percentage below suggests. GOSI is also phasing in higher rates gradually (System B) for employees who joined after July 2024, rising toward 11.75% by 2028 — the figure below is the current baseline. Non-Saudi employees usually have no employee-side GOSI deduction (only an employer-paid occupational hazards contribution, which doesn't reduce your salary). The percentage above is editable because exact rates and your specific wage basis vary — confirm the current rate and cap on gosi.gov.sa. This estimate doesn't include income tax, since Saudi Arabia does not levy personal income tax on employment salaries.",
   },
   ar: {
     basic: "الراتب الأساسي الشهري (ريال)",
@@ -26,7 +26,7 @@ const TEXT = {
     gross: "إجمالي الراتب الشهري",
     gosiAmount: "خصم التأمينات الاجتماعية",
     net: "صافي الراتب التقديري",
-    note: "تُطبَّق خصومات التأمينات الاجتماعية (جوسي) بشكل أساسي على الموظفين السعوديين — التقاعد بالإضافة إلى التأمين ضد التعطل عن العمل (ساند)، وعادة تُخصم من الراتب الأساسي فقط دون البدلات. غير السعوديين عادة لا يوجد لديهم خصم من جانب الموظف (فقط اشتراك الأخطار المهنية يدفعه صاحب العمل ولا يُخصم من الراتب). النسبة أعلاه قابلة للتعديل لأن النسب الرسمية قد تتغير — تأكد من النسبة الحالية عبر موقع gosi.gov.sa. هذا التقدير لا يشمل ضريبة الدخل، حيث لا تفرض السعودية ضريبة دخل شخصية على رواتب الموظفين.",
+    note: "تُطبَّق خصومات التأمينات الاجتماعية (جوسي) بشكل أساسي على الموظفين السعوديين — التقاعد بالإضافة إلى التأمين ضد التعطل عن العمل (ساند). الأجر الخاضع للاشتراك محدود بسقف 45,000 ريال شهريًا، لذا ذوو الدخل المرتفع جدًا يرون خصمًا فعليًا أقل نسبيًا مما توحي به النسبة الثابتة أدناه. كما تطبّق جوسي زيادة تدريجية في النسب (المسار ب) للموظفين المنضمين بعد يوليو 2024، ترتفع تدريجيًا نحو 11.75% بحلول 2028 — الرقم أدناه هو النسبة الأساسية الحالية. غير السعوديين عادة لا يوجد لديهم خصم من جانب الموظف (فقط اشتراك الأخطار المهنية يدفعه صاحب العمل ولا يُخصم من الراتب). النسبة أعلاه قابلة للتعديل لأن النسب الرسمية والأساس الدقيق لراتبك قد يختلفان — تأكد من النسبة والسقف الحاليين عبر موقع gosi.gov.sa. هذا التقدير لا يشمل ضريبة الدخل، حيث لا تفرض السعودية ضريبة دخل شخصية على رواتب الموظفين.",
   },
 };
 
