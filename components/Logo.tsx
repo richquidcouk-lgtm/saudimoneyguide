@@ -1,4 +1,4 @@
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 
 // Splits the brand name into a two-tone wordmark lockup. Works for the
 // English "SaudiMoney" (no space — split at the internal capital letter)
@@ -26,9 +26,7 @@ export default function Logo({
   theme?: "light" | "dark";
 }) {
   const t = useTranslations("site");
-  const locale = useLocale();
   const [first, second] = splitBrandName(t("name"));
-  const monogram = locale === "ar" ? "م" : "S";
 
   return (
     <span className="inline-flex items-center gap-2.5">
@@ -37,9 +35,19 @@ export default function Logo({
         aria-hidden="true"
       >
         <span className="pointer-events-none absolute inset-[3px] rounded-full border border-[var(--gold)]/40" />
-        <span className="font-display relative text-[17px] font-bold leading-none text-[var(--gold-soft)]">
-          {monogram}
-        </span>
+        {/* A date palm — the one motif that reads unmistakably "Saudi" without
+            religious or political ambiguity (it's on the real Riyal coins),
+            which doubles it as a "money" cue too since the mark sits inside
+            a coin medallion. */}
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" className="relative" aria-hidden="true">
+          <path d="M8 19h8" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M12 19c0-3 -0.4-6 0-11" stroke="var(--gold-soft)" strokeWidth="1.6" strokeLinecap="round" />
+          <path d="M12 8c-3-1.5-7.5-1.2-9.5 2.5" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M12 8c-2.2-2-5-2.7-6-0.7" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M12 8c0-1.5 0-2.5 0-4.5" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M12 8c2.2-2 5-2.7 6-0.7" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M12 8c3-1.5 7.5-1.2 9.5 2.5" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
       </span>
       {!compact && (
         <span className="font-display text-lg font-semibold leading-none tracking-tight">
