@@ -5,17 +5,13 @@ import type { Locale } from "@/i18n/routing";
 import GuideCard from "@/components/GuideCard";
 import FAQ from "@/components/FAQ";
 import EmailForm from "@/components/EmailForm";
+import MatchQuiz from "@/components/MatchQuiz";
 import { getAllGuides } from "@/lib/guides";
 import { buildAlternates } from "@/lib/seo";
 import { TOOLS } from "@/lib/tools-data";
-import { ToolIcon, ShieldCheckIcon, GlobeIcon, SparkleIcon, TargetIcon } from "@/components/icons";
+import { ToolIcon, ShieldCheckIcon, GlobeIcon, SparkleIcon } from "@/components/icons";
 
 const BENEFIT_ICONS = [ShieldCheckIcon, GlobeIcon, SparkleIcon];
-
-const COVERAGE = {
-  en: ["Salary & GOSI", "Zakat", "BNPL", "Home Finance", "Car Finance", "Investing", "SIMAH Score", "VAT"],
-  ar: ["الراتب وجوسي", "الزكاة", "الدفع الآجل", "التمويل العقاري", "تمويل السيارات", "الاستثمار", "درجة سِمَه", "الضريبة"],
-};
 
 export async function generateMetadata({
   params,
@@ -59,7 +55,7 @@ export default async function HomePage({
       {/* Hero */}
       <section className="pattern-paper relative overflow-hidden bg-[var(--paper)]">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--gold)]/60 to-transparent" />
-        <div className="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-28">
+        <div className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 sm:py-20">
           <span className="chip mx-auto">
             <span className="ornament-dot" aria-hidden="true" />
             {locale === "ar" ? "التمويل الشخصي — السعودية حصرًا" : "Personal Finance — Saudi Arabia Only"}
@@ -70,33 +66,21 @@ export default async function HomePage({
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[var(--ink-2)] sm:text-lg">
             {t("hero.subtitle")}
           </p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/guides"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--teal)] px-7 py-3.5 text-sm font-bold text-white shadow-[var(--shadow-premium)] transition-all hover:-translate-y-0.5 hover:bg-[var(--teal-dark)]"
-            >
-              {t("hero.cta")}
+
+          <div className="mx-auto mt-10 max-w-3xl text-start">
+            <MatchQuiz guides={allGuides} />
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+            <Link href="/guides" className="nav-link font-bold text-[var(--teal-dark)]">
+              {locale === "ar" ? "أو تصفّح كل الأدلة ←" : "Or browse all guides →"}
             </Link>
-            <Link
-              href="/tools"
-              className="inline-flex items-center gap-2 rounded-md border border-[var(--rule-strong)] bg-[var(--paper)]/70 px-7 py-3.5 text-sm font-bold text-[var(--ink-2)] backdrop-blur transition-all hover:-translate-y-0.5 hover:border-[var(--teal)] hover:text-[var(--teal-dark)]"
-            >
-              {locale === "ar" ? "جرّب الأدوات المجانية" : "Try the free tools"}
+            <Link href="/tools" className="nav-link font-bold text-[var(--teal-dark)]">
+              {locale === "ar" ? "أو تصفّح كل الأدوات ←" : "Or browse all tools →"}
             </Link>
           </div>
 
-          <div className="mx-auto mt-10 flex max-w-2xl flex-wrap items-center justify-center gap-2">
-            {COVERAGE[locale === "ar" ? "ar" : "en"].map((label) => (
-              <span
-                key={label}
-                className="rounded-full border border-[var(--rule)] bg-[var(--paper)]/80 px-3 py-1 text-xs font-semibold text-[var(--ink-3)]"
-              >
-                {label}
-              </span>
-            ))}
-          </div>
-
-          <dl className="mx-auto mt-16 flex max-w-lg items-stretch justify-center divide-x divide-[var(--rule-strong)] rtl:divide-x-reverse border-t border-[var(--rule)] pt-8">
+          <dl className="mx-auto mt-14 flex max-w-lg items-stretch justify-center divide-x divide-[var(--rule-strong)] rtl:divide-x-reverse border-t border-[var(--rule)] pt-8">
             {stats.map((stat) => (
               <div key={stat.label} className="flex-1 px-4">
                 <dt className="font-display text-3xl font-semibold text-[var(--teal-dark)]">
@@ -107,31 +91,6 @@ export default async function HomePage({
             ))}
           </dl>
         </div>
-      </section>
-
-      {/* Match quiz CTA */}
-      <section className="mx-auto max-w-6xl px-4 pt-14 sm:px-6">
-        <Link
-          href="/match"
-          className="card-premium group flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:text-start"
-        >
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--teal-soft)] text-[var(--teal-dark)] transition-colors group-hover:bg-[var(--teal)] group-hover:text-white">
-            <TargetIcon className="h-7 w-7" />
-          </span>
-          <div className="flex-1">
-            <h2 className="font-display text-lg font-semibold text-[var(--ink)] sm:text-xl">
-              {locale === "ar" ? "لا تعرف من أين تبدأ؟" : "Not sure where to start?"}
-            </h2>
-            <p className="mt-1 text-sm leading-relaxed text-[var(--ink-3)]">
-              {locale === "ar"
-                ? "أجب عن سؤالين وسنوجهك للدليل والحاسبة الأنسب لك — بدون حساب وبدون تخزين بياناتك."
-                : "Answer two quick questions and we'll point you to the right guide and calculator — no account, nothing stored."}
-            </p>
-          </div>
-          <span className="shrink-0 rounded-md bg-[var(--teal)] px-5 py-2.5 text-sm font-bold text-white transition-colors group-hover:bg-[var(--teal-dark)]">
-            {locale === "ar" ? "ابدأ الآن ←" : "Take the quiz →"}
-          </span>
-        </Link>
       </section>
 
       {/* Featured guides */}
