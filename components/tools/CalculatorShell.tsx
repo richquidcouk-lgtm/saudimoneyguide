@@ -14,7 +14,7 @@ export function Field({
 }
 
 export const inputClass =
-  "w-full rounded-md border border-[var(--rule)] bg-[var(--paper)] px-3.5 py-2.5 text-sm text-[var(--ink)] focus:border-[var(--teal)] focus:outline-none";
+  "w-full rounded-md border border-[var(--rule)] bg-[var(--paper)] px-3.5 py-2.5 text-sm text-[var(--ink)] transition-shadow focus:border-[var(--teal)] focus:outline-none focus:ring-4 focus:ring-[var(--teal)]/12";
 
 export const selectClass = inputClass;
 
@@ -45,7 +45,7 @@ export function ResultRow({
 
 export function ResultsCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-[var(--rule)] bg-[var(--teal-soft)] px-5 py-4">
+    <div className="relative overflow-hidden rounded-xl border border-[var(--teal-mid)]/30 bg-gradient-to-br from-[var(--teal-soft)] to-[var(--paper)] px-5 py-4 shadow-[0_10px_28px_-16px_rgba(11,93,82,0.4)]">
       {children}
     </div>
   );

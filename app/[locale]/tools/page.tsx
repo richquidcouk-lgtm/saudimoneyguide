@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { TOOLS } from "@/lib/tools-data";
 import { buildAlternates } from "@/lib/seo";
+import { ToolIcon } from "@/components/icons";
 
 const COPY = {
   en: {
@@ -50,12 +51,11 @@ export default async function ToolsIndexPage({
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {TOOLS.map((tool) => (
-          <Link
-            key={tool.slug}
-            href={`/tools/${tool.slug}`}
-            className="group flex flex-col rounded-lg border border-[var(--rule)] bg-[var(--paper)] p-5 transition-all hover:-translate-y-0.5 hover:border-[var(--teal-mid)] hover:shadow-[0_8px_24px_-12px_rgba(11,93,82,0.35)]"
-          >
-            <h2 className="text-base font-bold text-[var(--ink)] group-hover:text-[var(--teal-dark)]">
+          <Link key={tool.slug} href={`/tools/${tool.slug}`} className="card-premium group flex flex-col p-5">
+            <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--teal-soft)] text-[var(--teal-dark)] transition-colors group-hover:bg-[var(--teal)] group-hover:text-white">
+              <ToolIcon slug={tool.slug} />
+            </span>
+            <h2 className="mt-4 text-base font-bold text-[var(--ink)] group-hover:text-[var(--teal-dark)]">
               {locale === "ar" ? tool.titleAr : tool.titleEn}
             </h2>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--ink-3)]">

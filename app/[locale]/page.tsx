@@ -8,6 +8,14 @@ import EmailForm from "@/components/EmailForm";
 import { getAllGuides } from "@/lib/guides";
 import { buildAlternates } from "@/lib/seo";
 import { TOOLS } from "@/lib/tools-data";
+import { ToolIcon, ShieldCheckIcon, GlobeIcon, SparkleIcon, TargetIcon } from "@/components/icons";
+
+const BENEFIT_ICONS = [ShieldCheckIcon, GlobeIcon, SparkleIcon];
+
+const COVERAGE = {
+  en: ["Salary & GOSI", "Zakat", "BNPL", "Home Finance", "Car Finance", "Investing", "SIMAH Score", "VAT"],
+  ar: ["الراتب وجوسي", "الزكاة", "الدفع الآجل", "التمويل العقاري", "تمويل السيارات", "الاستثمار", "درجة سِمَه", "الضريبة"],
+};
 
 export async function generateMetadata({
   params,
@@ -49,13 +57,14 @@ export default async function HomePage({
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[var(--paper)]">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[var(--rule-strong)]" />
-        <div className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-28">
-          <p className="eyebrow">
+      <section className="pattern-paper relative overflow-hidden bg-[var(--paper)]">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--gold)]/60 to-transparent" />
+        <div className="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-28">
+          <span className="chip mx-auto">
+            <span className="ornament-dot" aria-hidden="true" />
             {locale === "ar" ? "التمويل الشخصي — السعودية حصرًا" : "Personal Finance — Saudi Arabia Only"}
-          </p>
-          <h1 className="font-display mt-4 text-4xl font-semibold leading-[1.1] text-[var(--ink)] sm:text-6xl">
+          </span>
+          <h1 className="font-display mt-6 text-4xl font-semibold leading-[1.1] text-[var(--ink)] sm:text-6xl">
             {t("hero.title")}
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[var(--ink-2)] sm:text-lg">
@@ -64,21 +73,32 @@ export default async function HomePage({
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/guides"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--teal)] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[var(--teal-dark)]"
+              className="inline-flex items-center gap-2 rounded-md bg-[var(--teal)] px-7 py-3.5 text-sm font-bold text-white shadow-[var(--shadow-premium)] transition-all hover:-translate-y-0.5 hover:bg-[var(--teal-dark)]"
             >
               {t("hero.cta")}
             </Link>
             <Link
               href="/tools"
-              className="inline-flex items-center gap-2 rounded-md border border-[var(--rule-strong)] px-6 py-3 text-sm font-bold text-[var(--ink-2)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal-dark)]"
+              className="inline-flex items-center gap-2 rounded-md border border-[var(--rule-strong)] bg-[var(--paper)]/70 px-7 py-3.5 text-sm font-bold text-[var(--ink-2)] backdrop-blur transition-all hover:-translate-y-0.5 hover:border-[var(--teal)] hover:text-[var(--teal-dark)]"
             >
               {locale === "ar" ? "جرّب الأدوات المجانية" : "Try the free tools"}
             </Link>
           </div>
 
-          <dl className="mx-auto mt-16 grid max-w-lg grid-cols-3 gap-6 border-t border-[var(--rule)] pt-8">
+          <div className="mx-auto mt-10 flex max-w-2xl flex-wrap items-center justify-center gap-2">
+            {COVERAGE[locale === "ar" ? "ar" : "en"].map((label) => (
+              <span
+                key={label}
+                className="rounded-full border border-[var(--rule)] bg-[var(--paper)]/80 px-3 py-1 text-xs font-semibold text-[var(--ink-3)]"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+
+          <dl className="mx-auto mt-16 flex max-w-lg items-stretch justify-center divide-x divide-[var(--rule-strong)] rtl:divide-x-reverse border-t border-[var(--rule)] pt-8">
             {stats.map((stat) => (
-              <div key={stat.label}>
+              <div key={stat.label} className="flex-1 px-4">
                 <dt className="font-display text-3xl font-semibold text-[var(--teal-dark)]">
                   {stat.value}
                 </dt>
@@ -87,6 +107,31 @@ export default async function HomePage({
             ))}
           </dl>
         </div>
+      </section>
+
+      {/* Match quiz CTA */}
+      <section className="mx-auto max-w-6xl px-4 pt-14 sm:px-6">
+        <Link
+          href="/match"
+          className="card-premium group flex flex-col items-center gap-5 p-7 text-center sm:flex-row sm:text-start"
+        >
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--teal-soft)] text-[var(--teal-dark)] transition-colors group-hover:bg-[var(--teal)] group-hover:text-white">
+            <TargetIcon className="h-7 w-7" />
+          </span>
+          <div className="flex-1">
+            <h2 className="font-display text-lg font-semibold text-[var(--ink)] sm:text-xl">
+              {locale === "ar" ? "لا تعرف من أين تبدأ؟" : "Not sure where to start?"}
+            </h2>
+            <p className="mt-1 text-sm leading-relaxed text-[var(--ink-3)]">
+              {locale === "ar"
+                ? "أجب عن سؤالين وسنوجهك للدليل والحاسبة الأنسب لك — بدون حساب وبدون تخزين بياناتك."
+                : "Answer two quick questions and we'll point you to the right guide and calculator — no account, nothing stored."}
+            </p>
+          </div>
+          <span className="shrink-0 rounded-md bg-[var(--teal)] px-5 py-2.5 text-sm font-bold text-white transition-colors group-hover:bg-[var(--teal-dark)]">
+            {locale === "ar" ? "ابدأ الآن ←" : "Take the quiz →"}
+          </span>
+        </Link>
       </section>
 
       {/* Featured guides */}
@@ -101,21 +146,21 @@ export default async function HomePage({
             </div>
             <Link
               href="/guides"
-              className="hidden shrink-0 text-sm font-bold text-[var(--teal-dark)] hover:underline sm:block"
+              className="nav-link hidden shrink-0 text-sm font-bold text-[var(--teal-dark)] sm:block"
             >
               {locale === "ar" ? "عرض كل الأدلة ←" : "View all guides →"}
             </Link>
           </div>
           <div className="mt-8 grid gap-5 sm:grid-cols-3">
-            {guides.map((guide) => (
-              <GuideCard key={guide.slug} guide={guide} />
+            {guides.map((guide, i) => (
+              <GuideCard key={guide.slug} guide={guide} index={i + 1} />
             ))}
           </div>
         </section>
       )}
 
       {/* Featured tools */}
-      <section className="border-y border-[var(--rule)] bg-[var(--paper)] py-20">
+      <section className="pattern-paper relative border-y border-[var(--rule)] py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <p className="eyebrow">{locale === "ar" ? "احسب بنفسك" : "Do The Math"}</p>
           <h2 className="font-display mt-2 text-2xl font-semibold text-[var(--ink)] sm:text-3xl">
@@ -123,19 +168,26 @@ export default async function HomePage({
           </h2>
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {TOOLS.slice(0, 6).map((tool) => (
-              <Link
-                key={tool.slug}
-                href={`/tools/${tool.slug}`}
-                className="group flex flex-col rounded-lg border border-[var(--rule)] bg-[var(--background)] p-5 transition-all hover:-translate-y-0.5 hover:border-[var(--teal-mid)] hover:shadow-[0_8px_24px_-12px_rgba(11,93,82,0.35)]"
-              >
-                <h3 className="text-base font-bold text-[var(--ink)] group-hover:text-[var(--teal-dark)]">
+              <Link key={tool.slug} href={`/tools/${tool.slug}`} className="card-premium group flex flex-col p-5">
+                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--teal-soft)] text-[var(--teal-dark)] transition-colors group-hover:bg-[var(--teal)] group-hover:text-white">
+                  <ToolIcon slug={tool.slug} />
+                </span>
+                <h3 className="mt-4 text-base font-bold text-[var(--ink)] group-hover:text-[var(--teal-dark)]">
                   {locale === "ar" ? tool.titleAr : tool.titleEn}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-[var(--ink-3)]">
                   {locale === "ar" ? tool.descriptionAr : tool.descriptionEn}
                 </p>
+                <span className="mt-4 text-sm font-bold text-[var(--teal-dark)]">
+                  {locale === "ar" ? "احسب الآن ←" : "Calculate now →"}
+                </span>
               </Link>
             ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link href="/tools" className="nav-link text-sm font-bold text-[var(--teal-dark)]">
+              {locale === "ar" ? "عرض كل الأدوات ←" : "View all tools →"}
+            </Link>
           </div>
         </div>
       </section>
@@ -148,29 +200,36 @@ export default async function HomePage({
             {t("benefits.title")}
           </h2>
           <div className="mt-8 grid gap-5 sm:grid-cols-3">
-            {benefits.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-lg border-t-2 border-[var(--gold)] bg-[var(--paper)] p-6 shadow-sm"
-              >
-                <h3 className="text-base font-bold text-[var(--ink)]">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--ink-3)]">
-                  {item.description}
-                </p>
-              </div>
-            ))}
+            {benefits.map((item, i) => {
+              const Icon = BENEFIT_ICONS[i % BENEFIT_ICONS.length];
+              return (
+                <div key={item.title} className="card-premium p-6">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--gold)] text-[var(--gold-dark)]">
+                    <Icon />
+                  </span>
+                  <h3 className="mt-4 text-base font-bold text-[var(--ink)]">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--ink-3)]">
+                    {item.description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Newsletter */}
       <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-        <div className="rounded-2xl bg-[var(--teal-dark)] px-6 py-12 text-center sm:px-12">
-          <h2 className="font-display text-2xl font-semibold text-white sm:text-3xl">
+        <div className="pattern-dark relative overflow-hidden rounded-2xl bg-[var(--teal-dark)] px-6 py-14 text-center sm:px-12">
+          <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[var(--gold)]/25" />
+          <p className="eyebrow relative text-[#C9A867]">
+            {locale === "ar" ? "ابقَ على اطلاع" : "Stay Ahead"}
+          </p>
+          <h2 className="font-display relative mt-2 text-2xl font-semibold text-white sm:text-3xl">
             {t("newsletter.title")}
           </h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-[#B7D0C7]">{t("newsletter.subtitle")}</p>
-          <div className="mt-7 flex justify-center">
+          <p className="relative mx-auto mt-2 max-w-md text-sm text-[#B7D0C7]">{t("newsletter.subtitle")}</p>
+          <div className="relative mt-7 flex justify-center">
             <EmailForm />
           </div>
         </div>
@@ -178,7 +237,10 @@ export default async function HomePage({
 
       {/* FAQ */}
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-        <p className="eyebrow text-center">{locale === "ar" ? "أسئلة متكررة" : "Common Questions"}</p>
+        <div className="ornament">
+          <span className="ornament-dot" aria-hidden="true" />
+        </div>
+        <p className="eyebrow mt-4 text-center">{locale === "ar" ? "أسئلة متكررة" : "Common Questions"}</p>
         <h2 className="font-display mt-2 text-center text-2xl font-semibold text-[var(--ink)] sm:text-3xl">
           {t("faq.title")}
         </h2>

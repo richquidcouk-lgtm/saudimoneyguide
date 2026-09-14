@@ -8,7 +8,7 @@ export default function FAQ({ items }: { items: FAQItem[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="flex flex-col divide-y divide-[var(--rule)] rounded-lg border border-[var(--rule)] bg-[var(--paper)]">
+    <div className="flex flex-col divide-y divide-[var(--rule)] overflow-hidden rounded-xl border border-[var(--rule)] bg-[var(--paper)] shadow-[var(--shadow-card)]">
       {items.map((item, i) => {
         const isOpen = openIndex === i;
         return (
@@ -16,12 +16,12 @@ export default function FAQ({ items }: { items: FAQItem[] }) {
             <button
               type="button"
               onClick={() => setOpenIndex(isOpen ? null : i)}
-              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-start"
+              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-start transition-colors hover:bg-[var(--teal-soft)]/40"
               aria-expanded={isOpen}
             >
               <span className="text-sm font-bold text-[var(--ink)]">{item.question}</span>
               <span
-                className={`shrink-0 text-lg text-[var(--ink-3)] transition-transform ${isOpen ? "rotate-45" : ""}`}
+                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[var(--gold)] text-base leading-none text-[var(--gold-dark)] transition-transform ${isOpen ? "rotate-45" : ""}`}
                 aria-hidden="true"
               >
                 +

@@ -23,6 +23,10 @@
 
   --burgundy: #6E2C2C;
   --burgundy-soft: #F1DEDD;
+
+  --shadow-color: 11, 93, 82;
+  --shadow-premium: 0 24px 60px -24px rgba(var(--shadow-color), 0.35), 0 4px 12px -4px rgba(20, 32, 27, 0.08);
+  --shadow-card: 0 14px 34px -18px rgba(20, 32, 27, 0.22);
 }
 
 @theme inline {
@@ -79,4 +83,131 @@ html[dir="rtl"] .eyebrow {
 }
 html[dir="rtl"] .rule-hairline {
   background: linear-gradient(to left, var(--rule-strong), transparent);
+}
+
+::selection {
+  background: var(--gold-soft);
+  color: var(--teal-dark);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Girih-inspired trellis lattice, used as a very low-opacity texture on
+   hero/CTA panels so the site reads as a considered, regionally-rooted
+   brand instead of a flat SaaS template. Two colorways: teal-on-paper and
+   gold-on-dark. */
+.pattern-paper {
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(11, 93, 82, 0.09), transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(169, 128, 61, 0.12), transparent 42%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M22 0L44 22L22 44L0 22Z' fill='none' stroke='%230B5D52' stroke-width='0.75' stroke-opacity='0.16'/%3E%3Cpath d='M22 9L35 22L22 35L9 22Z' fill='none' stroke='%23A9803D' stroke-width='0.6' stroke-opacity='0.14'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: auto, auto, 44px 44px;
+}
+
+.pattern-dark {
+  background-image:
+    radial-gradient(circle at 16% 12%, rgba(169, 128, 61, 0.16), transparent 45%),
+    radial-gradient(circle at 90% 92%, rgba(255, 255, 255, 0.06), transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M22 0L44 22L22 44L0 22Z' fill='none' stroke='%23F1E6CB' stroke-width='0.75' stroke-opacity='0.10'/%3E%3Cpath d='M22 9L35 22L22 35L9 22Z' fill='none' stroke='%23F1E6CB' stroke-width='0.6' stroke-opacity='0.08'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: auto, auto, 44px 44px;
+}
+
+/* Shared premium card treatment: hairline border, soft lift on hover, and a
+   gold hairline that draws in from the leading edge instead of a flat
+   border-color swap — this is the single detail that reads as "designed"
+   rather than "default browser hover". */
+.card-premium {
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-premium::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(to right, var(--gold), var(--teal-mid));
+  transition: width 0.32s ease;
+  border-start-start-radius: 1rem;
+  border-start-end-radius: 1rem;
+}
+.card-premium:hover {
+  transform: translateY(-3px);
+  border-color: var(--teal-mid);
+  box-shadow: var(--shadow-card);
+}
+.card-premium:hover::before {
+  width: 100%;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule-strong);
+  background: var(--paper);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 3px;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
+  border-radius: 999px;
+}
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.text-gold-foil {
+  background: linear-gradient(100deg, var(--gold-dark) 10%, var(--gold) 40%, #D9BE87 55%, var(--gold) 70%, var(--gold-dark) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+.ornament::before,
+.ornament::after {
+  content: "";
+  height: 1px;
+  width: 44px;
+  background: linear-gradient(to right, transparent, var(--rule-strong));
+}
+.ornament::after {
+  background: linear-gradient(to left, transparent, var(--rule-strong));
+}
+.ornament-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--gold);
+  transform: rotate(45deg);
 }

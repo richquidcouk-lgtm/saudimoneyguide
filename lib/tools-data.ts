@@ -115,3 +115,60 @@ export const TOOLS: ToolMeta[] = [
 export function getToolBySlug(slug: string): ToolMeta | undefined {
   return TOOLS.find((tool) => tool.slug === slug);
 }
+
+const TOOL_KEYWORDS: Record<string, { en: string; ar: string }> = {
+  "loan-calculator": {
+    en: "personal loan calculator Saudi Arabia, financing calculator, monthly installment calculator",
+    ar: "حاسبة القرض الشخصي, حاسبة التمويل, حاسبة القسط الشهري السعودية",
+  },
+  "zakat-calculator": {
+    en: "zakat calculator Saudi Arabia, nisab threshold, zakat on gold and cash, how much zakat do I owe",
+    ar: "حاسبة الزكاة, حد النصاب, زكاة الذهب والنقد, كم زكاتي",
+  },
+  "gratuity-calculator": {
+    en: "end of service gratuity calculator Saudi Arabia, EOSB calculator, Saudi labor law gratuity",
+    ar: "حاسبة مكافأة نهاية الخدمة, حساب مكافأة نهاية الخدمة السعودية, نظام العمل السعودي",
+  },
+  "salary-calculator": {
+    en: "take home salary calculator Saudi Arabia, GOSI calculator, net salary calculator Saudi Arabia",
+    ar: "حاسبة صافي الراتب, حاسبة جوسي, راتب بعد الخصومات السعودية",
+  },
+  "bnpl-calculator": {
+    en: "BNPL calculator, buy now pay later installment calculator, Tamara Tabby calculator",
+    ar: "حاسبة الدفع الآجل, حاسبة تقسيط الشراء, حاسبة تمارا وتابي",
+  },
+  "currency-converter": {
+    en: "SAR currency converter, Saudi Riyal to USD, Saudi Riyal exchange rate calculator",
+    ar: "محول العملات السعودي, الريال السعودي مقابل الدولار, سعر صرف الريال",
+  },
+  "mortgage-calculator": {
+    en: "home finance calculator Saudi Arabia, mortgage calculator Saudi Arabia, Sakani monthly installment",
+    ar: "حاسبة التمويل العقاري السعودية, حاسبة القسط العقاري, حاسبة سكني",
+  },
+  "car-finance-calculator": {
+    en: "car finance calculator Saudi Arabia, auto loan calculator, car installment calculator",
+    ar: "حاسبة تمويل السيارات السعودية, حاسبة قسط السيارة, حاسبة قرض السيارة",
+  },
+  "vat-calculator": {
+    en: "VAT calculator Saudi Arabia, ZATCA VAT calculator, add remove 15% VAT",
+    ar: "حاسبة ضريبة القيمة المضافة السعودية, حاسبة زاتكا, إضافة أو خصم 15%",
+  },
+  "savings-goal-calculator": {
+    en: "savings goal calculator, how much to save monthly, savings target calculator Saudi Arabia",
+    ar: "حاسبة هدف الادخار, كم أدخر شهريًا, حاسبة هدف التوفير السعودية",
+  },
+  "debt-payoff-calculator": {
+    en: "debt payoff calculator, debt payoff timeline calculator, months to pay off debt",
+    ar: "حاسبة سداد الديون, حاسبة مدة سداد الدين, كم شهر لسداد الدين",
+  },
+  "investment-growth-calculator": {
+    en: "investment growth calculator, compound growth calculator Saudi Arabia, investment projection calculator",
+    ar: "حاسبة نمو الاستثمار, حاسبة الفائدة المركبة السعودية, حاسبة توقعات الاستثمار",
+  },
+};
+
+export function getToolKeywords(slug: string, locale: string): string | undefined {
+  const entry = TOOL_KEYWORDS[slug];
+  if (!entry) return undefined;
+  return locale === "ar" ? entry.ar : entry.en;
+}

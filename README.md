@@ -1,4 +1,4 @@
-# Saudi Money Guide
+# SaudiMoney
 
 Bilingual (English + Arabic) personal finance content and tools site for Saudi Arabia. Next.js 16 App Router, `next-intl` for i18n/RTL, MDX guides, Vercel deployment.
 

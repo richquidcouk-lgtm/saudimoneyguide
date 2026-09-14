@@ -4,6 +4,8 @@ import type { Locale } from "@/i18n/routing";
 import GuideCard from "@/components/GuideCard";
 import { getAllGuides } from "@/lib/guides";
 import { buildAlternates } from "@/lib/seo";
+import { GUIDE_CATEGORIES, getCategoryForSlug } from "@/lib/guide-categories";
+import { CategoryIcon } from "@/components/icons";
 
 export async function generateMetadata({
   params,
@@ -31,23 +33,75 @@ export default async function GuidesIndexPage({
   const t = await getTranslations("guides");
   const guides = getAllGuides(locale);
 
-  return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <p className="eyebrow">{locale === "ar" ? "المكتبة الكاملة" : "The Full Library"}</p>
-      <h1 className="font-display mt-2 text-3xl font-semibold text-[var(--ink)] sm:text-4xl">
-        {t("title")}
-      </h1>
-      <p className="mt-2 max-w-2xl text-[var(--ink-3)]">{t("subtitle")}</p>
+  const grouped = GUIDE_CATEGORIES.map((category) => ({
+    category,
+    guides: guides.filter((g) => getCategoryForSlug(g.slug) === category.id),
+  })).filter((group) => group.guides.length > 0);
 
-      {guides.length === 0 ? (
-        <p className="mt-10 text-sm text-[var(--ink-3)]">{t("empty")}</p>
-      ) : (
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {guides.map((guide) => (
-            <GuideCard key={guide.slug} guide={guide} />
-          ))}
+  let runningIndex = 0;
+
+  return (
+    <>
+      <section className="pattern-paper relative overflow-hidden border-b border-[var(--rule)]">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--gold)]/60 to-transparent" />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <p className="eyebrow">{locale === "ar" ? "المكتبة الكاملة" : "The Full Library"}</p>
+          <h1 className="font-display mt-2 max-w-2xl text-3xl font-semibold leading-tight text-[var(--ink)] sm:text-5xl">
+            {t("title")}
+          </h1>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--ink-2)]">
+            {t("subtitle")}
+          </p>
+
+          {grouped.length > 0 && (
+            <div className="mt-8 flex flex-wrap gap-2">
+              {grouped.map(({ category, guides: catGuides }) => (
+                <a
+                  key={category.id}
+                  href={`#${category.id}`}
+                  className="chip transition-colors hover:border-[var(--teal-mid)] hover:text-[var(--teal-dark)]"
+                >
+                  <CategoryIcon id={category.id} className="h-4 w-4" />
+                  {locale === "ar" ? category.labelAr : category.labelEn}
+                  <span className="text-[var(--ink-4)]">{catGuides.length}</span>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
-      )}
-    </section>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        {guides.length === 0 ? (
+          <p className="text-sm text-[var(--ink-3)]">{t("empty")}</p>
+        ) : (
+          <div className="flex flex-col gap-16">
+            {grouped.map(({ category, guides: catGuides }) => (
+              <section key={category.id} id={category.id} className="scroll-mt-24">
+                <div className="flex items-start gap-4 border-b border-[var(--rule)] pb-5">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--gold)] text-[var(--gold-dark)]">
+                    <CategoryIcon id={category.id} />
+                  </span>
+                  <div>
+                    <h2 className="font-display text-xl font-semibold text-[var(--ink)] sm:text-2xl">
+                      {locale === "ar" ? category.labelAr : category.labelEn}
+                    </h2>
+                    <p className="mt-1 text-sm text-[var(--ink-3)]">
+                      {locale === "ar" ? category.descriptionAr : category.descriptionEn}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {catGuides.map((guide) => {
+                    runningIndex += 1;
+                    return <GuideCard key={guide.slug} guide={guide} index={runningIndex} />;
+                  })}
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }

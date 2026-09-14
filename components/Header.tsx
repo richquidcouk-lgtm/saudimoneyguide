@@ -14,12 +14,13 @@ export default function Header() {
     { href: "/", label: t("nav.home") },
     { href: "/guides", label: t("nav.guides") },
     { href: "/tools", label: t("nav.tools") },
+    { href: "/match", label: t("nav.match") },
     { href: "/about", label: t("nav.about") },
     { href: "/contact", label: t("nav.contact") },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[var(--paper)]/95 backdrop-blur">
+    <header className="sticky top-0 z-50 bg-[var(--paper)]/90 shadow-[0_1px_0_rgba(20,32,27,0.04)] backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
         <Link href="/" aria-label={t("site.name")}>
           <Logo />
@@ -30,7 +31,7 @@ export default function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-md px-3.5 py-2 text-sm font-semibold text-[var(--ink-2)] transition-colors hover:bg-[var(--teal-soft)] hover:text-[var(--teal-dark)]"
+              className="nav-link rounded-md px-3.5 py-2 text-sm font-semibold text-[var(--ink-2)] transition-colors hover:text-[var(--teal-dark)]"
             >
               {item.label}
             </Link>
@@ -60,7 +61,7 @@ export default function Header() {
         </button>
       </div>
 
-      <div className="rule-hairline" />
+      <div className="h-px bg-gradient-to-r from-transparent via-[var(--gold)]/50 to-transparent" />
 
       {open && (
         <div className="border-b border-[var(--rule)] bg-[var(--paper)] px-4 py-3 md:hidden">

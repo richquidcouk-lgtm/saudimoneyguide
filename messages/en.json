@@ -1,12 +1,13 @@
 {
   "site": {
-    "name": "Saudi Money Guide",
+    "name": "SaudiMoney",
     "tagline": "Your trusted guide to Saudi personal finance"
   },
   "nav": {
     "home": "Home",
     "guides": "Guides",
     "tools": "Tools",
+    "match": "Find My Match",
     "about": "About",
     "contact": "Contact"
   },
@@ -23,7 +24,7 @@
     "readMore": "Read guide"
   },
   "benefits": {
-    "title": "Why Saudi Money Guide",
+    "title": "Why SaudiMoney",
     "items": [
       {
         "title": "Saudi-exclusive",
@@ -51,7 +52,7 @@
     "title": "Frequently Asked Questions",
     "items": [
       {
-        "question": "Is Saudi Money Guide free to use?",
+        "question": "Is SaudiMoney free to use?",
         "answer": "Yes, every guide is completely free. We earn a commission when readers apply for a product through our links, at no extra cost to you."
       },
       {
@@ -67,8 +68,8 @@
         "answer": "We review and update guides regularly as rates, terms and providers change."
       },
       {
-        "question": "Who runs Saudi Money Guide?",
-        "answer": "Saudi Money Guide is an independent personal finance publisher focused exclusively on the Saudi market."
+        "question": "Who runs SaudiMoney?",
+        "answer": "SaudiMoney is an independent personal finance publisher focused exclusively on the Saudi market."
       }
     ]
   },

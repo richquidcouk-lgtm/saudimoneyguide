@@ -44,7 +44,7 @@ export function getGuideBySlug(locale: Locale, slug: string): Guide | null {
     title: String(data.title ?? ""),
     description: String(data.description ?? ""),
     keywords: String(data.keywords ?? ""),
-    author: String(data.author ?? "Saudi Money Guide"),
+    author: String(data.author ?? "SaudiMoney"),
     publishedAt: String(data.publishedAt ?? ""),
     slug: String(data.slug ?? slug),
     content,

@@ -5,7 +5,7 @@ import { TOOLS } from "@/lib/tools-data";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://saudimoneyguide.com";
 
-const STATIC_PATHS = ["", "/guides", "/tools", "/about", "/contact", "/privacy"];
+const STATIC_PATHS = ["", "/guides", "/tools", "/match", "/about", "/contact", "/privacy"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

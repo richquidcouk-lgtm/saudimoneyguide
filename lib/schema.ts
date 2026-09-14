@@ -6,7 +6,8 @@ export function buildOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Saudi Money Guide",
+    name: "SaudiMoney",
+    alternateName: "المال السعودي",
     url: BASE,
   };
 }
@@ -32,11 +33,23 @@ export function buildArticleSchema({
     headline: title,
     description,
     author: { "@type": "Organization", name: author },
-    publisher: { "@type": "Organization", name: "Saudi Money Guide" },
+    publisher: { "@type": "Organization", name: "SaudiMoney" },
     datePublished: publishedAt,
     dateModified: publishedAt,
     inLanguage: locale,
     mainEntityOfPage: `${BASE}/${locale}/guides/${slug}`,
+  };
+}
+
+export function buildFAQSchema(items: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
   };
 }
 
