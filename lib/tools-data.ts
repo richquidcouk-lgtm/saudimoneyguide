@@ -61,6 +61,55 @@ export const TOOLS: ToolMeta[] = [
     descriptionAr:
       "حوّل بين الريال السعودي والعملات الرئيسية، باستخدام سعر الصرف الثابت مقابل الدولار وسعر تُدخله لبقية العملات.",
   },
+  {
+    slug: "mortgage-calculator",
+    titleEn: "Home Finance Calculator",
+    titleAr: "حاسبة التمويل العقاري",
+    descriptionEn:
+      "Estimate your monthly installment on a home finance (mortgage) amount, based on price, down payment, rate and term.",
+    descriptionAr:
+      "احسب قسطك الشهري التقديري للتمويل العقاري بناءً على السعر والدفعة المقدمة والنسبة والمدة.",
+  },
+  {
+    slug: "car-finance-calculator",
+    titleEn: "Car Finance Calculator",
+    titleAr: "حاسبة تمويل السيارات",
+    descriptionEn:
+      "Work out your monthly installment for financing a car, including the effect of your down payment.",
+    descriptionAr:
+      "احسب قسطك الشهري لتمويل سيارة، بما في ذلك أثر الدفعة المقدمة.",
+  },
+  {
+    slug: "vat-calculator",
+    titleEn: "VAT Calculator",
+    titleAr: "حاسبة ضريبة القيمة المضافة",
+    descriptionEn: "Add or remove Saudi Arabia's 15% VAT from any price in seconds.",
+    descriptionAr: "أضف أو استخرج ضريبة القيمة المضافة (15%) من أي سعر في ثوانٍ.",
+  },
+  {
+    slug: "savings-goal-calculator",
+    titleEn: "Savings Goal Calculator",
+    titleAr: "حاسبة هدف الادخار",
+    descriptionEn:
+      "Find out how much you need to save each month to reach a savings target by a specific date.",
+    descriptionAr: "اعرف كم تحتاج للادخار شهريًا للوصول إلى هدف ادخاري بحلول موعد محدد.",
+  },
+  {
+    slug: "debt-payoff-calculator",
+    titleEn: "Debt Payoff Calculator",
+    titleAr: "حاسبة سداد الديون",
+    descriptionEn:
+      "See how many months it'll take to clear a balance at a given payment, and the total profit/interest cost.",
+    descriptionAr: "اعرف عدد الأشهر اللازمة لسداد رصيد بدفعة معينة، وإجمالي تكلفة الربح/الفائدة.",
+  },
+  {
+    slug: "investment-growth-calculator",
+    titleEn: "Investment Growth Calculator",
+    titleAr: "حاسبة نمو الاستثمار",
+    descriptionEn:
+      "Project how a starting amount plus regular contributions could grow over time at an assumed return.",
+    descriptionAr: "اعرف كيف يمكن أن ينمو مبلغ ابتدائي مع مساهمات منتظمة عبر الوقت بعائد مفترض.",
+  },
 ];
 
 export function getToolBySlug(slug: string): ToolMeta | undefined {

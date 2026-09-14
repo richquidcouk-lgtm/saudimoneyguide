@@ -21,13 +21,16 @@ Visit `http://localhost:3000` — it redirects to `/en` or `/ar` based on browse
 
 ## Content
 
-- **5 cornerstone guides**, each published in English and Arabic (10 pages
-  total): SIMAH credit score, Islamic finance (Tawarruq vs Murabaha), BNPL
-  (Tamara vs Tabby), salary advance apps, and expat banking. Arabic guides
+- **15 cornerstone guides**, each published in English and Arabic (30 pages
+  total): SIMAH credit score, Islamic finance (Tawarruq vs Murabaha), BNPL,
+  salary advance apps, expat banking, home finance/mortgages, car finance,
+  health insurance, car insurance, cost of living, VAT explained, investing
+  (Tadawul), credit cards, GOSI/retirement, and freelancing. Arabic guides
   are independently written for a Saudi audience, not machine-translated.
-- **6 interactive financial calculators** under `/tools`: personal loan,
+- **12 interactive financial calculators** under `/tools`: personal loan,
   Zakat, end-of-service gratuity, take-home salary (GOSI), BNPL installment
-  schedule, and a SAR currency converter. All client-side, no backend.
+  schedule, SAR currency converter, home finance, car finance, VAT, savings
+  goal, debt payoff, and investment growth. All client-side, no backend.
   Anything tied to a regulatory rate that changes (GOSI %, gold price) is an
   editable input with a sensible default, not a hardcoded assumption —
   check `components/tools/*.tsx` for the exact caveats shown to users.
@@ -95,6 +98,11 @@ actually deliver emails / forward affiliate events.
   `SENDGRID_API_KEY` / `SENDGRID_LIST_ID`)
 - Analytics (Vercel Analytics / PostHog)
 - Real `about`/`contact`/`privacy` copy — these are placeholders
-- More guides and tools — see `docs/planning/` for the original content
-  calendar (Sukuk, investment apps, insurance/Takaful, freelancing & taxes,
-  crypto regulation) as a starting point for what's next
+- `docs/planning/` is historical context only (the original AI-generated
+  brief this project started from) — it's not the content roadmap anymore.
+  Topic selection is now driven by real personal-finance search categories,
+  not that document; see the guide/tool lists above for current coverage.
+- Genuine gaps still open: Takaful (Islamic insurance) as its own guide,
+  Sukuk in more depth, remittance/money-transfer comparison, a
+  retirement/pension planning calculator, and building out the guide
+  library toward every major Saudi personal-finance search category.
