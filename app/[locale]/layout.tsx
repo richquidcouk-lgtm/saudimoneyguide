@@ -63,6 +63,17 @@ export async function generateMetadata({
       path: "",
       locale: locale as Locale,
     }),
+    // Search-engine ownership verification. The Google code isn't a secret
+    // (it's meant to sit in public page HTML), so it's a safe hardcoded
+    // default — but still overridable via env var without a code change if
+    // it's ever regenerated. Bing has no code yet; set BING_SITE_VERIFICATION
+    // in Netlify once it does and it'll appear on the next deploy.
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION ?? "WcKSC8bmbRs1ius6XkNoamYglNFsd5VFVXQ5nOIBq4A",
+      other: process.env.BING_SITE_VERIFICATION
+        ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+        : undefined,
+    },
   };
 }
 
