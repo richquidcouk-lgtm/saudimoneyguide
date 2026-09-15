@@ -21,7 +21,7 @@ export default function EmailForm() {
         body: JSON.stringify({ email, locale }),
       });
       const data = await res.json();
-      setStatus(data.success ? "success" : "error");
+      setStatus(res.ok && data.success ? "success" : "error");
     } catch {
       setStatus("error");
     }
@@ -31,7 +31,7 @@ export default function EmailForm() {
   // homepage — text colors are chosen for contrast against that background,
   // not the page background.
   if (status === "success") {
-    return <p className="text-sm font-semibold text-[var(--gold-soft)]">{t("success")}</p>;
+    return <p role="status" className="text-sm font-semibold text-[var(--gold-soft)]">{t("success")}</p>;
   }
 
   return (
@@ -39,6 +39,10 @@ export default function EmailForm() {
       <form onSubmit={handleSubmit} className="flex w-full flex-col gap-2 sm:flex-row">
         <input
           type="email"
+          aria-label={t("label")}
+          name="email"
+          autoComplete="email"
+          maxLength={254}
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -54,7 +58,7 @@ export default function EmailForm() {
         </button>
       </form>
       {status === "error" && (
-        <p className="text-xs font-semibold text-[#F3B4B0]">{t("error")}</p>
+        <p role="alert" className="text-xs font-semibold text-[#F3B4B0]">{t("error")}</p>
       )}
     </div>
   );

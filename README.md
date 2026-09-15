@@ -1,6 +1,6 @@
 # SaudiMoney
 
-Bilingual (English + Arabic) personal finance content and tools site for Saudi Arabia. Next.js 16 App Router, `next-intl` for i18n/RTL, MDX guides, Vercel deployment.
+Bilingual (English + Arabic) personal finance content and tools site for Saudi Arabia. Next.js 16 App Router, `next-intl` for i18n/RTL, MDX guides, Netlify deployment.
 
 ## Stack
 
@@ -21,7 +21,7 @@ Visit `http://localhost:3000` — it redirects to `/en` or `/ar` based on browse
 
 ## Content
 
-- **15 cornerstone guides**, each published in English and Arabic (30 pages
+- **16 cornerstone guides**, each published in English and Arabic (32 pages
   total): SIMAH credit score, Islamic finance (Tawarruq vs Murabaha), BNPL,
   salary advance apps, expat banking, home finance/mortgages, car finance,
   health insurance, car insurance, cost of living, VAT explained, investing
@@ -142,9 +142,12 @@ Visit `http://localhost:3000` — it redirects to `/en` or `/ar` based on browse
 
 ## Environment variables
 
-Copy `.env.local.example` to `.env.local`. Everything works without any keys
-set (subscribe/track routes fall back to `console.log`); add real keys to
-actually deliver emails / forward affiliate events.
+Copy `.env.local.example` to `.env.local`. Calculators and content work without keys. Newsletter signup requires both
+`SENDGRID_API_KEY` and `SENDGRID_LIST_ID`; otherwise it returns 503. The optional
+`SENDGRID_LOCALE_FIELD_ID` must be a generated SendGrid custom-field ID. A successful
+response means the contact-import job was accepted, not that an email was delivered.
+Configure campaigns/automation and check import-job completion in SendGrid separately.
+Affiliate tracking falls back to server logging without a webhook.
 
 ## What's not done yet
 
@@ -152,7 +155,7 @@ actually deliver emails / forward affiliate events.
   providers' real public homepages, not tracked affiliate URLs — swap in
   the tracked URL once a partnership is signed; wire up
   `AFFILIATE_TRACKING_WEBHOOK_URL` to forward click events to Refersion/Tapfiliate/CJ)
-- SendGrid account + template (currently logs locally; wire up
+- SendGrid account + campaign/automation (signup fails clearly when unconfigured; wire up
   `SENDGRID_API_KEY` / `SENDGRID_LIST_ID`) — this also means the contact
   page's email is a `mailto:` link, not a form, since there's no delivery
   mechanism yet to POST a form to
@@ -166,3 +169,16 @@ actually deliver emails / forward affiliate events.
   Sukuk in more depth, remittance/money-transfer comparison, a
   retirement/pension planning calculator, and building out the guide
   library toward every major Saudi personal-finance search category.
+
+## Validation
+
+Run `npm test`, `npm run lint`, `npx tsc --noEmit --incremental false`, and
+`npm run build` before deployment. Regression tests cover salary contribution
+basis/caps, gratuity thresholds, final debt payments, BNPL dates/rounding and
+newsletter failure handling, using production functions and mocked email transport.
+
+Financial calculations remain estimates; the salary tool uses an editable employee
+rate and cash housing allowance. GCC and other special cases need separate review.
+BNPL schedules use an explicit Gregorian start date and calendar months. Amounts
+are displayed to two decimal places. Public article dates are not a scheduler;
+only publish content when it is ready, and set `updatedAt` on actual revisions.

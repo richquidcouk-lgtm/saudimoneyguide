@@ -47,8 +47,9 @@
     "subtitle": "One email when we publish something new. No spam.",
     "placeholder": "you@example.com",
     "submit": "Subscribe",
-    "success": "Check your email to confirm.",
-    "error": "Something went wrong. Please try again."
+    "success": "Thanks — your subscription request has been received.",
+    "error": "We could not accept your subscription right now. Please try again later.",
+    "label": "Email address"
   },
   "faq": {
     "title": "Frequently Asked Questions",

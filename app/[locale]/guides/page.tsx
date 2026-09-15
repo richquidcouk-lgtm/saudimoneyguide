@@ -39,7 +39,7 @@ export default async function GuidesIndexPage({
     guides: guides.filter((g) => getCategoryForSlug(g.slug) === category.id),
   })).filter((group) => group.guides.length > 0);
 
-  let runningIndex = 0;
+  const guideNumbers = new Map(grouped.flatMap((group) => group.guides).map((guide, index) => [guide.slug, index + 1]));
 
   return (
     <>
@@ -93,10 +93,9 @@ export default async function GuidesIndexPage({
                   </div>
                 </div>
                 <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                  {catGuides.map((guide) => {
-                    runningIndex += 1;
-                    return <GuideCard key={guide.slug} guide={guide} index={runningIndex} />;
-                  })}
+                  {catGuides.map((guide) => (
+                    <GuideCard key={guide.slug} guide={guide} index={guideNumbers.get(guide.slug)} />
+                  ))}
                 </div>
               </section>
             ))}

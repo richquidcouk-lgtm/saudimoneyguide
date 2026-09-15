@@ -107,8 +107,9 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(buildWebsiteSchema(locale)) }}
         />
         <NextIntlClientProvider>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[100] focus:rounded focus:bg-[var(--paper)] focus:p-4">{locale === "ar" ? "انتقل إلى المحتوى" : "Skip to content"}</a>
           <Header />
-          <main>{children}</main>
+          <main id="main-content" tabIndex={-1}>{children}</main>
           <Footer />
         </NextIntlClientProvider>
       </body>

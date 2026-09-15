@@ -8,7 +8,7 @@
   --ink: #14201B;
   --ink-2: #38473F;
   --ink-3: #667069;
-  --ink-4: #96A199;
+  --ink-4: #68736B;
   --rule: #E2DBC8;
   --rule-strong: #C9BD9E;
 
@@ -17,7 +17,7 @@
   --teal-mid: #1F7A6B;
   --teal-soft: #E4EFE9;
 
-  --gold: #A9803D;
+  --gold: #89652E;
   --gold-dark: #7C5D28;
   --gold-soft: #F1E6CB;
 
@@ -210,4 +210,10 @@ html {
   border-radius: 999px;
   background: var(--gold);
   transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .card-premium, .card-premium::before, .nav-link::after { transition: none; }
+  .card-premium:hover { transform: none; }
 }

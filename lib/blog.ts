@@ -11,6 +11,7 @@ export type BlogFrontmatter = {
   keywords: string;
   author: string;
   publishedAt: string;
+  updatedAt?: string;
   slug: string;
   /** Guide slugs this post is the visual/explainer companion to — drives
    * the reciprocal "Related reading" block shown on those guide pages. */
@@ -46,6 +47,7 @@ export function getBlogPostBySlug(locale: Locale, slug: string): BlogPost | null
     keywords: String(data.keywords ?? ""),
     author: String(data.author ?? "SaudiMoney"),
     publishedAt: String(data.publishedAt ?? ""),
+    updatedAt: data.updatedAt ? String(data.updatedAt) : undefined,
     slug: String(data.slug ?? slug),
     relatedGuides: Array.isArray(data.relatedGuides) ? data.relatedGuides.map(String) : [],
     content,
@@ -63,6 +65,7 @@ export function getAllBlogPosts(locale: Locale): BlogSummary[] {
         keywords: post.keywords,
         author: post.author,
         publishedAt: post.publishedAt,
+        updatedAt: post.updatedAt,
         slug: post.slug,
         relatedGuides: post.relatedGuides,
       }),

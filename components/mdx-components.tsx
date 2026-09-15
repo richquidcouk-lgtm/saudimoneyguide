@@ -52,12 +52,12 @@ export function getMdxComponents(locale: Locale): MDXComponents {
         {...props}
       />
     ),
-    p: (props) => <p className="mt-4 text-[15px] leading-relaxed text-[var(--ink-2)]" {...props} />,
+    p: (props) => <p className="mt-4 text-[17px] leading-relaxed text-[var(--ink-2)]" {...props} />,
     ul: (props) => (
-      <ul className="mt-4 list-disc space-y-2 ps-5 text-[15px] text-[var(--ink-2)]" {...props} />
+      <ul className="mt-4 list-disc space-y-2 ps-5 text-[17px] text-[var(--ink-2)]" {...props} />
     ),
     ol: (props) => (
-      <ol className="mt-4 list-decimal space-y-2 ps-5 text-[15px] text-[var(--ink-2)]" {...props} />
+      <ol className="mt-4 list-decimal space-y-2 ps-5 text-[17px] text-[var(--ink-2)]" {...props} />
     ),
     a: (props) => LocaleAwareLink(locale, props),
     table: (props) => (

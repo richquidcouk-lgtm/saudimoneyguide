@@ -8,7 +8,7 @@ import type { Locale } from "@/i18n/routing";
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog";
 import { getGuideBySlug } from "@/lib/guides";
 import { getMdxComponents } from "@/components/mdx-components";
-import { buildAlternates, buildOpenGraph } from "@/lib/seo";
+import { buildAlternatesFromMap, buildOpenGraph } from "@/lib/seo";
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema } from "@/lib/schema";
 import { extractFaqPairs } from "@/lib/faq";
 
@@ -36,7 +36,7 @@ export async function generateMetadata({
     description: post.description,
     keywords: post.keywords,
     authors: [{ name: post.author }],
-    alternates: buildAlternates(`/blog/${slug}`, locale as Locale),
+    alternates: buildAlternatesFromMap(pathsByLocale, locale as Locale),
     ...buildOpenGraph({
       title: post.title,
       description: post.description,
@@ -69,6 +69,7 @@ export default async function BlogPostPage({
     path: `/blog/${post.slug}`,
     author: post.author,
     publishedAt: post.publishedAt,
+    updatedAt: post.updatedAt,
     locale,
   });
   const breadcrumbSchema = buildBreadcrumbSchema(
@@ -107,6 +108,7 @@ export default async function BlogPostPage({
         <p className="mt-3 text-[var(--ink-3)]">{post.description}</p>
         <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-[var(--ink-4)]">
           {post.author} · {post.publishedAt}
+          {post.updatedAt && <> · {locale === "ar" ? "آخر تحديث: " : "Updated: "}{post.updatedAt}</>}
         </p>
       </header>
 

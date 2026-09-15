@@ -11,6 +11,7 @@ export type GuideFrontmatter = {
   keywords: string;
   author: string;
   publishedAt: string;
+  updatedAt?: string;
   slug: string;
 };
 
@@ -46,6 +47,7 @@ export function getGuideBySlug(locale: Locale, slug: string): Guide | null {
     keywords: String(data.keywords ?? ""),
     author: String(data.author ?? "SaudiMoney"),
     publishedAt: String(data.publishedAt ?? ""),
+    updatedAt: data.updatedAt ? String(data.updatedAt) : undefined,
     slug: String(data.slug ?? slug),
     content,
   };
@@ -62,6 +64,7 @@ export function getAllGuides(locale: Locale): GuideSummary[] {
         keywords: guide.keywords,
         author: guide.author,
         publishedAt: guide.publishedAt,
+        updatedAt: guide.updatedAt,
         slug: guide.slug,
       }),
     )

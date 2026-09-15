@@ -28,7 +28,7 @@ export function ResultRow({
   emphasize?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between border-b border-[var(--rule)] py-2.5 last:border-b-0">
+    <div className="flex items-center justify-between gap-4 flex-wrap border-b border-[var(--rule)] py-2.5 last:border-b-0">
       <span className="text-sm text-[var(--ink-3)]">{label}</span>
       <span
         className={
@@ -56,6 +56,7 @@ export function formatCurrency(value: number, locale: string) {
   return new Intl.NumberFormat(locale === "ar" ? "ar-SA" : "en-US", {
     style: "currency",
     currency: "SAR",
-    maximumFractionDigits: 0,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(value);
 }

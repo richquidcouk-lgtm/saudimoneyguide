@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { GuideSummary } from "@/lib/guides";
@@ -51,9 +51,17 @@ const COPY = {
 export default function MatchQuiz({ guides }: { guides: GuideSummary[] }) {
   const locale = useLocale();
   const c = COPY[locale === "ar" ? "ar" : "en"];
+  const panel = useRef<HTMLDivElement>(null);
+  const previousStep = useRef<Step>("category");
+  const [expanded, setExpanded] = useState(false);
   const [step, setStep] = useState<Step>("category");
   const [categoryId, setCategoryId] = useState<QuizCategoryId | null>(null);
   const [nationality, setNationality] = useState<Nationality | null>(null);
+
+  useEffect(() => {
+    if (previousStep.current !== step) panel.current?.focus();
+    previousStep.current = step;
+  }, [step]);
 
   const category = categoryId ? getQuizCategory(categoryId) : undefined;
 
@@ -73,7 +81,8 @@ export default function MatchQuiz({ guides }: { guides: GuideSummary[] }) {
 
   function selectCategory(id: QuizCategoryId) {
     setCategoryId(id);
-    setStep("nationality");
+    setNationality(null);
+    setStep(getQuizCategory(id)?.nationalityNote ? "nationality" : "results");
   }
 
   function selectNationality(value: Nationality) {
@@ -99,10 +108,10 @@ export default function MatchQuiz({ guides }: { guides: GuideSummary[] }) {
       : null;
 
   return (
-    <div className="card-premium relative overflow-hidden p-6 sm:p-8">
+    <div ref={panel} tabIndex={-1} className="card-premium relative overflow-hidden p-6 sm:p-8">
       {step !== "results" && (
         <p className="eyebrow">
-          {c.stepLabel} {step === "category" ? "1" : "2"}/2
+          {step === "category" ? (locale === "ar" ? "اختر موضوعًا" : "Choose a topic") : (locale === "ar" ? "سؤال اختياري" : "Optional question")}
         </p>
       )}
 
@@ -112,7 +121,7 @@ export default function MatchQuiz({ guides }: { guides: GuideSummary[] }) {
             {c.q1}
           </h3>
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {QUIZ_CATEGORIES.map((cat) => (
+            {QUIZ_CATEGORIES.slice(0, expanded ? undefined : 6).map((cat) => (
               <button
                 key={cat.id}
                 type="button"
@@ -128,6 +137,9 @@ export default function MatchQuiz({ guides }: { guides: GuideSummary[] }) {
               </button>
             ))}
           </div>
+          <button type="button" aria-expanded={expanded} onClick={() => setExpanded(!expanded)} className="mt-4 min-h-11 text-sm font-bold text-[var(--teal-dark)]">
+            {locale === "ar" ? (expanded ? "عرض أقل" : "عرض جميع المواضيع") : (expanded ? "Show fewer topics" : "Show all topics")}
+          </button>
         </>
       )}
 
@@ -152,12 +164,13 @@ export default function MatchQuiz({ guides }: { guides: GuideSummary[] }) {
               {c.nonSaudi}
             </button>
           </div>
+          <button type="button" onClick={() => setStep("results")} className="mt-4 block min-h-11 text-sm font-bold text-[var(--teal-dark)]">{locale === "ar" ? "تخطي وعرض الأدلة" : "Skip and show guides"}</button>
           <button
             type="button"
             onClick={() => setStep("category")}
             className="nav-link mt-6 text-sm font-bold text-[var(--teal-dark)]"
           >
-            ← {c.back}
+            {locale === "ar" ? "→" : "←"} {c.back}
           </button>
         </>
       )}

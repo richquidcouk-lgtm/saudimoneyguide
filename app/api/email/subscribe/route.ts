@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { subscribeToNewsletter } from "@/lib/email";
+import { subscribeToNewsletter, NewsletterUnavailableError } from "@/lib/email";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -11,9 +11,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { email, locale } = (body ?? {}) as { email?: unknown; locale?: unknown };
+  const { email: rawEmail, locale } = (body ?? {}) as { email?: unknown; locale?: unknown };
+  const email = typeof rawEmail === "string" ? rawEmail.trim() : rawEmail;
 
-  if (typeof email !== "string" || !EMAIL_RE.test(email)) {
+  if (typeof email !== "string" || email.length > 254 || !EMAIL_RE.test(email)) {
     return NextResponse.json({ success: false, error: "Invalid email" }, { status: 400 });
   }
 
@@ -22,12 +23,15 @@ export async function POST(request: NextRequest) {
   try {
     await subscribeToNewsletter({ email, locale: safeLocale });
   } catch (error) {
-    console.error("[email:subscribe] failed", error);
+    if (error instanceof NewsletterUnavailableError) {
+      return NextResponse.json({ success: false, error: "Newsletter temporarily unavailable" }, { status: 503 });
+    }
+    console.error("[email:subscribe] provider request failed");
     return NextResponse.json(
       { success: false, error: "Subscription failed, please try again" },
       { status: 502 },
     );
   }
 
-  return NextResponse.json({ success: true, message: "Check your email" });
+  return NextResponse.json({ success: true, message: "Subscription request accepted" }, { status: 202 });
 }

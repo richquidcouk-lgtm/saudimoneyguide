@@ -16,9 +16,9 @@ export default function LanguageSwitcher() {
   return (
     <button
       type="button"
-      onClick={() => router.replace(pathname, { locale: nextLocale })}
-      className="rounded-full border border-[var(--rule)] px-3.5 py-1.5 text-sm font-semibold text-[var(--ink-2)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
-      aria-label={`Switch language to ${nextLocale === "ar" ? "Arabic" : "English"}`}
+      onClick={() => router.replace(pathname + window.location.search + window.location.hash, { locale: nextLocale })}
+      className="min-h-11 rounded-full border border-[var(--rule)] px-3.5 py-1.5 text-sm font-semibold text-[var(--ink-2)] transition-colors hover:border-[var(--teal)] hover:text-[var(--teal)]"
+      aria-label={currentLocale === "ar" ? "التبديل إلى الإنجليزية" : "Switch to Arabic"}
     >
       {t("switchTo")}
     </button>

@@ -8,7 +8,7 @@ import EmailForm from "@/components/EmailForm";
 import MatchQuiz from "@/components/MatchQuiz";
 import { getAllGuides } from "@/lib/guides";
 import { getAllBlogPosts } from "@/lib/blog";
-import { buildAlternates } from "@/lib/seo";
+import { buildAlternates, buildOpenGraph } from "@/lib/seo";
 import { TOOLS } from "@/lib/tools-data";
 import { ToolIcon, ShieldCheckIcon, GlobeIcon, SparkleIcon } from "@/components/icons";
 
@@ -24,8 +24,9 @@ export async function generateMetadata({
   const alternates = buildAlternates("", locale as Locale);
 
   return {
-    title: t("name"),
-    description: t("tagline"),
+    title: { absolute: locale === "ar" ? "أدلة وحاسبات مالية للسعودية | المال السعودي" : "Saudi Finance Guides & Calculators | SaudiMoney" },
+    description: locale === "ar" ? "أدلة وحاسبات مجانية للراتب ومكافأة نهاية الخدمة والتمويل والميزانية في السعودية، بالعربية والإنجليزية." : "Free Saudi salary, end-of-service, finance and budgeting calculators, with practical banking guides in English and Arabic.",
+    ...buildOpenGraph({ title: locale === "ar" ? "أدلة وحاسبات مالية للسعودية" : "Saudi Finance Guides & Calculators", description: t("tagline"), path: "", locale: locale as Locale }),
     alternates,
   };
 }
@@ -69,6 +70,11 @@ export default async function HomePage({
             {t("hero.subtitle")}
           </p>
 
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/tools/salary-calculator" className="rounded-lg bg-[var(--teal)] px-5 py-3 text-sm font-bold text-white hover:bg-[var(--teal-dark)]">{locale === "ar" ? "احسب صافي راتبك" : "Calculate take-home pay"}</Link>
+            <Link href="/tools/gratuity-calculator" className="rounded-lg border border-[var(--teal)] px-5 py-3 text-sm font-bold text-[var(--teal-dark)]">{locale === "ar" ? "احسب مكافأة نهاية الخدمة" : "Calculate end-of-service"}</Link>
+            <Link href="/guides" className="rounded-lg border border-[var(--teal)] px-5 py-3 text-sm font-bold text-[var(--teal-dark)]">{locale === "ar" ? "تصفح الأدلة" : "Explore guides"}</Link>
+          </div>
           <div className="mx-auto mt-10 max-w-3xl text-start">
             <MatchQuiz guides={allGuides} />
           </div>

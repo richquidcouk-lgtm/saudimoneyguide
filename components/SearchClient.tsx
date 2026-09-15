@@ -5,7 +5,8 @@ import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { GuideSummary } from "@/lib/guides";
 import type { BlogSummary } from "@/lib/blog";
-import type { ToolMeta } from "@/lib/tools-data";
+import { getToolKeywords, type ToolMeta } from "@/lib/tools-data";
+import { scoreSearchItem } from "@/lib/search";
 import { ToolIcon } from "@/components/icons";
 
 type SearchItem = {
@@ -35,19 +36,6 @@ const COPY = {
   },
 };
 
-function score(item: SearchItem, query: string): number {
-  const q = query.toLowerCase();
-  const title = item.title.toLowerCase();
-  const description = item.description.toLowerCase();
-  const keywords = item.keywords.toLowerCase();
-  if (title === q) return 100;
-  if (title.startsWith(q)) return 80;
-  if (title.includes(q)) return 60;
-  if (keywords.includes(q)) return 40;
-  if (description.includes(q)) return 20;
-  return 0;
-}
-
 export default function SearchClient({
   guides,
   blogPosts,
@@ -62,6 +50,14 @@ export default function SearchClient({
   const locale = useLocale();
   const c = COPY[locale === "ar" ? "ar" : "en"];
   const [query, setQuery] = useState(initialQuery);
+
+  function updateQuery(value: string) {
+    setQuery(value);
+    const url = new URL(window.location.href);
+    if (value.trim()) url.searchParams.set("q", value);
+    else url.searchParams.delete("q");
+    window.history.replaceState(null, "", url);
+  }
 
   const items: SearchItem[] = useMemo(() => {
     const guideItems: SearchItem[] = guides.map((g) => ({
@@ -83,7 +79,7 @@ export default function SearchClient({
       slug: t.slug,
       title: locale === "ar" ? t.titleAr : t.titleEn,
       description: locale === "ar" ? t.descriptionAr : t.descriptionEn,
-      keywords: "",
+      keywords: getToolKeywords(t.slug, locale === "ar" ? "ar" : "en") ?? "",
     }));
     return [...guideItems, ...blogItems, ...toolItems];
   }, [guides, blogPosts, tools, locale]);
@@ -92,7 +88,7 @@ export default function SearchClient({
     const q = query.trim();
     if (!q) return [];
     return items
-      .map((item) => ({ item, s: score(item, q) }))
+      .map((item) => ({ item, s: scoreSearchItem(item, q) }))
       .filter(({ s }) => s > 0)
       .sort((a, b) => b.s - a.s)
       .map(({ item }) => item);
@@ -114,12 +110,20 @@ export default function SearchClient({
     <div>
       <input
         type="search"
+        aria-label={c.placeholder}
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => updateQuery(e.target.value)}
         placeholder={c.placeholder}
         autoFocus
         className="w-full rounded-lg border border-[var(--rule-strong)] bg-[var(--paper)] px-4 py-3.5 text-base text-[var(--ink)] shadow-[var(--shadow-card)] focus:border-[var(--teal)] focus:outline-none focus:ring-4 focus:ring-[var(--teal)]/12"
       />
+
+      <p role="status" aria-live="polite" className="mt-4 text-sm text-[var(--ink-3)]">
+        {query.trim() ? (locale === "ar" ? `عدد النتائج: ${results.length}` : `${results.length} results`) : (locale === "ar" ? "ابدأ بموضوع أو جرّب أحد الاقتراحات:" : "Search a topic or try a suggestion:")}
+      </p>
+      {(!query.trim() || results.length === 0) && <div className="mt-3 flex flex-wrap gap-2">
+        {(locale === "ar" ? ["الراتب", "تمويل", "تأمين", "زكاة"] : ["salary", "finance", "insurance", "zakat"]).map(term => <button key={term} type="button" onClick={() => updateQuery(term)} className="rounded-full border border-[var(--rule)] px-4 py-3 text-sm hover:bg-[var(--teal-soft)]">{term}</button>)}
+      </div>}
 
       {query.trim() && (
         <p className="mt-4 text-sm text-[var(--ink-3)]">

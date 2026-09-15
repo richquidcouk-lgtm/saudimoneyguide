@@ -1,5 +1,6 @@
 "use client";
 
+import { calculateDebtPayoff } from "@/lib/calculations";
 import { useMemo, useState } from "react";
 import { Field, inputClass, ResultRow, ResultsCard, formatCurrency } from "./CalculatorShell";
 
@@ -34,19 +35,7 @@ export default function DebtPayoffCalculator({ locale }: { locale: string }) {
   const [rate, setRate] = useState(20);
   const [payment, setPayment] = useState(800);
 
-  const { months, totalPaid, totalCost, tooLow } = useMemo(() => {
-    const r = rate / 100 / 12;
-    const monthlyCharge = balance * r;
-
-    if (payment <= monthlyCharge) {
-      return { months: Infinity, totalPaid: 0, totalCost: 0, tooLow: true };
-    }
-
-    const n = r === 0 ? balance / payment : -Math.log(1 - (r * balance) / payment) / Math.log(1 + r);
-    const nRounded = Math.ceil(n);
-    const paid = nRounded * payment;
-    return { months: nRounded, totalPaid: paid, totalCost: paid - balance, tooLow: false };
-  }, [balance, rate, payment]);
+  const result = useMemo(() => calculateDebtPayoff(balance, rate, payment), [balance, rate, payment]);
 
   return (
     <div className="grid gap-6 sm:grid-cols-2">
@@ -56,8 +45,8 @@ export default function DebtPayoffCalculator({ locale }: { locale: string }) {
             type="number"
             min={0}
             className={inputClass}
-            value={balance}
-            onChange={(e) => setBalance(Number(e.target.value))}
+            value={Number.isFinite(balance) ? balance : ""}
+            onChange={(e) => setBalance(e.target.value === "" ? NaN : Number(e.target.value))}
           />
         </Field>
         <Field label={t.rate}>
@@ -66,8 +55,8 @@ export default function DebtPayoffCalculator({ locale }: { locale: string }) {
             min={0}
             step={0.5}
             className={inputClass}
-            value={rate}
-            onChange={(e) => setRate(Number(e.target.value))}
+            value={Number.isFinite(rate) ? rate : ""}
+            onChange={(e) => setRate(e.target.value === "" ? NaN : Number(e.target.value))}
           />
         </Field>
         <Field label={t.payment}>
@@ -75,26 +64,27 @@ export default function DebtPayoffCalculator({ locale }: { locale: string }) {
             type="number"
             min={0}
             className={inputClass}
-            value={payment}
-            onChange={(e) => setPayment(Number(e.target.value))}
+            value={Number.isFinite(payment) ? payment : ""}
+            onChange={(e) => setPayment(e.target.value === "" ? NaN : Number(e.target.value))}
           />
         </Field>
-        <p className="text-xs leading-relaxed text-[var(--ink-3)]">{t.note}</p>
+        <p className="text-xs leading-relaxed text-[var(--ink-3)]">{t.note} {locale === "ar" ? "أقصى مدة مدعومة: 1000 سنة. لا يشمل التقدير رسوم المزوّد." : "Maximum supported payoff period: 1,000 years. Provider fees are excluded."}</p>
       </div>
 
       <div className="flex flex-col justify-between gap-4">
         <ResultsCard>
-          {tooLow ? (
+          {!result ? <p role="alert">{locale === "ar" ? "تحقق من المدخلات: مبالغ غير سالبة ونسب من 0 إلى 100 ومدد ضمن الحدود الموضحة." : "Check your inputs: use non-negative amounts, rates from 0 to 100, and terms within the stated limits."}</p> : result.tooLow ? (
             <p className="text-sm font-semibold text-[var(--burgundy)]">{t.tooLow}</p>
           ) : (
             <>
               <ResultRow
                 label={t.months}
-                value={`${months} (${t.years} ${(months / 12).toFixed(1)}y)`}
+                value={`${result.months} (${t.years} ${(result.months / 12).toFixed(1)} ${locale === "ar" ? "سنة" : "years"})`}
                 emphasize
               />
-              <ResultRow label={t.totalPaid} value={formatCurrency(totalPaid, locale)} />
-              <ResultRow label={t.totalCost} value={formatCurrency(totalCost, locale)} />
+              <ResultRow label={locale === "ar" ? "الدفعة الأخيرة" : "Final payment"} value={formatCurrency(result.finalPayment, locale)} />
+              <ResultRow label={t.totalPaid} value={formatCurrency(result.totalPaid, locale)} />
+              <ResultRow label={t.totalCost} value={formatCurrency(result.totalCost, locale)} />
             </>
           )}
         </ResultsCard>

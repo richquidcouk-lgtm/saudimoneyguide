@@ -44,6 +44,7 @@ export function buildArticleSchema({
   path,
   author,
   publishedAt,
+  updatedAt,
   locale,
 }: {
   title: string;
@@ -51,6 +52,7 @@ export function buildArticleSchema({
   path: string;
   author: string;
   publishedAt: string;
+  updatedAt?: string;
   locale: Locale;
 }) {
   return {
@@ -61,7 +63,7 @@ export function buildArticleSchema({
     author: { "@type": "Organization", name: author },
     publisher: { "@type": "Organization", name: "SaudiMoney" },
     datePublished: publishedAt,
-    dateModified: publishedAt,
+    dateModified: updatedAt ?? publishedAt,
     inLanguage: locale,
     mainEntityOfPage: `${BASE}/${locale}${path}`,
   };

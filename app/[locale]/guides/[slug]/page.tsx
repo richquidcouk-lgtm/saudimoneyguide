@@ -77,6 +77,7 @@ export default async function GuidePage({
     path: `/guides/${guide.slug}`,
     author: guide.author,
     publishedAt: guide.publishedAt,
+    updatedAt: guide.updatedAt,
     locale,
   });
   const breadcrumbSchema = buildBreadcrumbSchema(
@@ -114,6 +115,7 @@ export default async function GuidePage({
         <p className="mt-3 text-[var(--ink-3)]">{guide.description}</p>
         <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-[var(--ink-4)]">
           {guide.author} · {guide.publishedAt}
+          {guide.updatedAt && <> · {locale === "ar" ? "آخر تحديث: " : "Updated: "}{guide.updatedAt}</>}
         </p>
       </header>
 

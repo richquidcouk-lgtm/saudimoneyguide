@@ -1,12 +1,14 @@
 "use client";
 
+import { calculateSalary } from "@/lib/calculations";
 import { useMemo, useState } from "react";
 import { Field, inputClass, selectClass, ResultRow, ResultsCard, formatCurrency } from "./CalculatorShell";
 
 const TEXT = {
   en: {
     basic: "Basic monthly salary (SAR)",
-    allowances: "Housing & other allowances (SAR)",
+    housing: "Monthly housing allowance (SAR)",
+    allowances: "Other monthly cash allowances (SAR)",
     nationality: "Nationality",
     saudi: "Saudi national",
     nonSaudi: "Non-Saudi (expat)",
@@ -14,11 +16,12 @@ const TEXT = {
     gross: "Gross monthly salary",
     gosiAmount: "GOSI deduction",
     net: "Estimated take-home salary",
-    note: "GOSI (social insurance) deductions apply mainly to Saudi employees — pension plus unemployment insurance (SANED). The contributory wage is capped at SAR 45,000/month, so very high earners see a smaller effective deduction than the flat percentage below suggests. GOSI is also phasing in higher rates gradually (System B) for employees who joined after July 2024, rising toward 11.75% by 2028 — the figure below is the current baseline. Non-Saudi employees usually have no employee-side GOSI deduction (only an employer-paid occupational hazards contribution, which doesn't reduce your salary). The percentage above is editable because exact rates and your specific wage basis vary — confirm the current rate and cap on gosi.gov.sa. This estimate doesn't include income tax, since Saudi Arabia does not levy personal income tax on employment salaries.",
+    note: "This estimate applies your entered employee rate to basic salary plus housing allowance, capped at SAR 45,000/month. Other cash allowances are included in take-home pay but excluded from this estimated contribution basis. The 9.75% starting rate is illustrative for the established Saudi scheme, not a universal current rate. Check your registered wage and applicable pension/SANED rate with GOSI, especially under the newer scheme or with housing in kind. The non-Saudi option assumes no employee deduction; GCC nationals and other special cases need their own calculation. Other payroll deductions are excluded.",
   },
   ar: {
     basic: "الراتب الأساسي الشهري (ريال)",
-    allowances: "بدل السكن والبدلات الأخرى (ريال)",
+    housing: "بدل السكن الشهري (ريال)",
+    allowances: "البدلات النقدية الشهرية الأخرى (ريال)",
     nationality: "الجنسية",
     saudi: "سعودي الجنسية",
     nonSaudi: "غير سعودي (مقيم)",
@@ -26,23 +29,19 @@ const TEXT = {
     gross: "إجمالي الراتب الشهري",
     gosiAmount: "خصم التأمينات الاجتماعية",
     net: "صافي الراتب التقديري",
-    note: "تُطبَّق خصومات التأمينات الاجتماعية (جوسي) بشكل أساسي على الموظفين السعوديين — التقاعد بالإضافة إلى التأمين ضد التعطل عن العمل (ساند). الأجر الخاضع للاشتراك محدود بسقف 45,000 ريال شهريًا، لذا ذوو الدخل المرتفع جدًا يرون خصمًا فعليًا أقل نسبيًا مما توحي به النسبة الثابتة أدناه. كما تطبّق جوسي زيادة تدريجية في النسب (المسار ب) للموظفين المنضمين بعد يوليو 2024، ترتفع تدريجيًا نحو 11.75% بحلول 2028 — الرقم أدناه هو النسبة الأساسية الحالية. غير السعوديين عادة لا يوجد لديهم خصم من جانب الموظف (فقط اشتراك الأخطار المهنية يدفعه صاحب العمل ولا يُخصم من الراتب). النسبة أعلاه قابلة للتعديل لأن النسب الرسمية والأساس الدقيق لراتبك قد يختلفان — تأكد من النسبة والسقف الحاليين عبر موقع gosi.gov.sa. هذا التقدير لا يشمل ضريبة الدخل، حيث لا تفرض السعودية ضريبة دخل شخصية على رواتب الموظفين.",
+    note: "يطبق التقدير نسبة الموظف التي تدخلها على الأساسي وبدل السكن، بسقف 45,000 ريال شهريًا. تدخل البدلات النقدية الأخرى في صافي الراتب ولا تدخل في أساس الاشتراك التقديري هنا. نسبة البداية 9.75% مثال للنظام السابق للسعوديين وليست نسبة حالية موحدة. تحقق من أجرك المسجل ونسبة المعاشات وساند لدى التأمينات الاجتماعية، خصوصًا في النظام الجديد أو عند توفير سكن عيني. يفترض خيار غير السعودي عدم وجود خصم على الموظف؛ ويحتاج مواطنو الخليج والحالات الخاصة إلى حساب منفصل. لا يشمل التقدير الخصومات الأخرى.",
   },
 };
 
 export default function SalaryCalculator({ locale }: { locale: string }) {
   const t = TEXT[locale === "ar" ? "ar" : "en"];
   const [basic, setBasic] = useState(10000);
-  const [allowances, setAllowances] = useState(2000);
+  const [housing, setHousing] = useState(2000);
+  const [allowances, setAllowances] = useState(0);
   const [nationality, setNationality] = useState<"saudi" | "nonSaudi">("saudi");
   const [gosiRate, setGosiRate] = useState(9.75);
 
-  const { gross, gosiAmount, net } = useMemo(() => {
-    const g = basic + allowances;
-    const rate = nationality === "saudi" ? gosiRate : 0;
-    const deduction = basic * (rate / 100);
-    return { gross: g, gosiAmount: deduction, net: g - deduction };
-  }, [basic, allowances, nationality, gosiRate]);
+  const result = useMemo(() => calculateSalary(basic, housing, allowances, gosiRate, nationality === "saudi"), [basic, housing, allowances, nationality, gosiRate]);
 
   return (
     <div className="grid gap-6 sm:grid-cols-2">
@@ -52,17 +51,21 @@ export default function SalaryCalculator({ locale }: { locale: string }) {
             type="number"
             min={0}
             className={inputClass}
-            value={basic}
-            onChange={(e) => setBasic(Number(e.target.value))}
+            value={Number.isFinite(basic) ? basic : ""}
+            onChange={(e) => setBasic(e.target.value === "" ? NaN : Number(e.target.value))}
           />
+        </Field>
+        <Field label={t.housing}>
+          <input type="number" min={0} className={inputClass} value={Number.isFinite(housing) ? housing : ""}
+            onChange={(e) => setHousing(e.target.value === "" ? NaN : Number(e.target.value))} />
         </Field>
         <Field label={t.allowances}>
           <input
             type="number"
             min={0}
             className={inputClass}
-            value={allowances}
-            onChange={(e) => setAllowances(Number(e.target.value))}
+            value={Number.isFinite(allowances) ? allowances : ""}
+            onChange={(e) => setAllowances(e.target.value === "" ? NaN : Number(e.target.value))}
           />
         </Field>
         <Field label={t.nationality}>
@@ -82,8 +85,8 @@ export default function SalaryCalculator({ locale }: { locale: string }) {
               min={0}
               step={0.05}
               className={inputClass}
-              value={gosiRate}
-              onChange={(e) => setGosiRate(Number(e.target.value))}
+              value={Number.isFinite(gosiRate) ? gosiRate : ""}
+              onChange={(e) => setGosiRate(e.target.value === "" ? NaN : Number(e.target.value))}
             />
           </Field>
         )}
@@ -91,11 +94,13 @@ export default function SalaryCalculator({ locale }: { locale: string }) {
 
       <div className="flex flex-col justify-between gap-4">
         <ResultsCard>
-          <ResultRow label={t.gross} value={formatCurrency(gross, locale)} />
-          <ResultRow label={t.gosiAmount} value={formatCurrency(gosiAmount, locale)} />
-          <ResultRow label={t.net} value={formatCurrency(net, locale)} emphasize />
+          {result ? <>
+          <ResultRow label={t.gross} value={formatCurrency(result.gross, locale)} />
+          <ResultRow label={t.gosiAmount} value={formatCurrency(result.gosiAmount, locale)} />
+          <ResultRow label={t.net} value={formatCurrency(result.net, locale)} emphasize />
+                  </> : <p role="alert">{locale === "ar" ? "تحقق من المدخلات: مبالغ غير سالبة ونسب من 0 إلى 100 ومدد ضمن الحدود الموضحة." : "Check your inputs: use non-negative amounts, rates from 0 to 100, and terms within the stated limits."}</p>}
         </ResultsCard>
-        <p className="text-xs leading-relaxed text-[var(--ink-3)]">{t.note}</p>
+        <p className="text-xs leading-relaxed text-[var(--ink-3)]">{t.note} <a className="underline" href="https://www.gosi.gov.sa/GOSIOnline/FAQ_Contributor">{locale === "ar" ? "المصدر: التأمينات الاجتماعية" : "Source: GOSI"}</a></p>
       </div>
     </div>
   );
