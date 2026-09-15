@@ -21,13 +21,14 @@ function LocaleAwareLink(
 ) {
   const { href, ...rest } = props;
   const isInternal = href?.startsWith("/") && !href.startsWith("//");
-  const resolvedHref = isInternal ? `/${locale}${href}` : href;
+  const hasLocale = /^\/(en|ar)(?:\/|$)/.test(href ?? "");
+  const resolvedHref = isInternal && !hasLocale ? `/${locale}${href}` : href;
 
   return (
     <a
       href={resolvedHref}
       className="font-semibold text-[var(--teal-dark)] underline decoration-[var(--rule-strong)] underline-offset-2 hover:decoration-[var(--teal-dark)]"
-      {...(!isInternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...(href?.startsWith("https://") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       {...rest}
     />
   );

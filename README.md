@@ -182,3 +182,11 @@ rate and cash housing allowance. GCC and other special cases need separate revie
 BNPL schedules use an explicit Gregorian start date and calendar months. Amounts
 are displayed to two decimal places. Public article dates are not a scheduler;
 only publish content when it is ready, and set `updatedAt` on actual revisions.
+
+## Article presentation
+
+Guides and blog posts share server-rendered contents links, approximate reading time, an overview, author/date details, and references extracted from their actual Markdown links. Contents IDs come from the same rehype tree as the rendered headings, including Arabic and duplicate headings. Related guides favour explicit links and the existing topic categories.
+
+Optional frontmatter: `summary` (a list of concise takeaways), `reviewer` and `reviewedAt` (set together only after a real review). Without takeaways, the existing description is used. No review date or reviewer is inferred. Sources are existing cited links, not a claim that every article has been verified.
+
+The homepage skyline and topic-specific article assets are AI-generated editorial illustrations, labelled in both languages and served locally through Next Image. See `docs/image-assets.md` for provenance.

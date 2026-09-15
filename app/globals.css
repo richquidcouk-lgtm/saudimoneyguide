@@ -217,3 +217,7 @@ html {
   .card-premium, .card-premium::before, .nav-link::after { transition: none; }
   .card-premium:hover { transform: none; }
 }
+
+.article-body { overflow-wrap: anywhere; }
+.article-body li { line-height: 1.8; }
+.article-body h2:target, .article-body h3:target { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 0.3em; }

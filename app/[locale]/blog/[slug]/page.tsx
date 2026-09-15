@@ -1,13 +1,12 @@
 import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
-import rehypeSlug from "rehype-slug";
+import { prepareArticle } from "@/components/articles/prepareArticle";
+import { ArticleMeta, ArticleOverview, ArticleTrust } from "@/components/articles/ArticleExtras";
+import ArticleImage from "@/components/articles/ArticleImage";
 import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/routing";
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog";
 import { getGuideBySlug } from "@/lib/guides";
-import { getMdxComponents } from "@/components/mdx-components";
 import { buildAlternatesFromMap, buildOpenGraph } from "@/lib/seo";
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema } from "@/lib/schema";
 import { extractFaqPairs } from "@/lib/faq";
@@ -58,6 +57,7 @@ export default async function BlogPostPage({
 
   const post = getBlogPostBySlug(locale, slug);
   if (!post) notFound();
+  const article = await prepareArticle(post.content, locale);
 
   const relatedGuides = post.relatedGuides
     .map((guideSlug) => getGuideBySlug(locale, guideSlug))
@@ -105,29 +105,13 @@ export default async function BlogPostPage({
         <h1 className="font-display mt-2 text-3xl font-semibold leading-tight text-[var(--ink)] sm:text-4xl">
           {post.title}
         </h1>
-        <p className="mt-3 text-[var(--ink-3)]">{post.description}</p>
-        <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-[var(--ink-4)]">
-          {post.author} · {post.publishedAt}
-          {post.updatedAt && <> · {locale === "ar" ? "آخر تحديث: " : "Updated: "}{post.updatedAt}</>}
-        </p>
+        <ArticleMeta article={post} locale={locale} minutes={article.readingMinutes} />
       </header>
 
-      <div className="mt-6">
-        <MDXRemote
-          source={post.content}
-          components={getMdxComponents(locale)}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [rehypeSlug],
-            },
-            // See the guide page's identical comment — content is fully
-            // author-controlled, so it's safe to allow the object/array
-            // literal props our diagram components need.
-            blockJS: false,
-          }}
-        />
-      </div>
+      <ArticleImage slug={slug} locale={locale} />
+      <ArticleOverview article={post} locale={locale} headings={article.headings} toolSlugs={article.toolSlugs} />
+      <div className="article-body mt-8">{article.content}</div>
+      <ArticleTrust article={post} locale={locale} sources={article.sources} />
 
       {relatedGuides.length > 0 && (
         <footer className="mt-16 border-t border-[var(--rule)] pt-8">

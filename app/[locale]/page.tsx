@@ -1,3 +1,4 @@
+import SaudiCityImage from "@/components/SaudiCityImage";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -58,24 +59,29 @@ export default async function HomePage({
       {/* Hero */}
       <section className="pattern-paper relative overflow-hidden bg-[var(--paper)]">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--gold)]/60 to-transparent" />
-        <div className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 sm:py-20">
-          <span className="chip mx-auto">
+        <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12">
+          <div className="text-start">
+          <span className="chip">
             <span className="ornament-dot" aria-hidden="true" />
             {locale === "ar" ? "التمويل الشخصي — السعودية حصرًا" : "Personal Finance — Saudi Arabia Only"}
           </span>
-          <h1 className="font-display mt-6 text-4xl font-semibold leading-[1.1] text-[var(--ink)] sm:text-6xl">
+          <h1 className="font-display mt-6 text-4xl font-semibold leading-[1.13] text-[var(--ink)] sm:text-5xl xl:text-6xl">
             {t("hero.title")}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[var(--ink-2)] sm:text-lg">
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--ink-2)] sm:text-lg">
             {t("hero.subtitle")}
           </p>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/tools/salary-calculator" className="rounded-lg bg-[var(--teal)] px-5 py-3 text-sm font-bold text-white hover:bg-[var(--teal-dark)]">{locale === "ar" ? "احسب صافي راتبك" : "Calculate take-home pay"}</Link>
             <Link href="/tools/gratuity-calculator" className="rounded-lg border border-[var(--teal)] px-5 py-3 text-sm font-bold text-[var(--teal-dark)]">{locale === "ar" ? "احسب مكافأة نهاية الخدمة" : "Calculate end-of-service"}</Link>
             <Link href="/guides" className="rounded-lg border border-[var(--teal)] px-5 py-3 text-sm font-bold text-[var(--teal-dark)]">{locale === "ar" ? "تصفح الأدلة" : "Explore guides"}</Link>
           </div>
-          <div className="mx-auto mt-10 max-w-3xl text-start">
+          </div>
+          <SaudiCityImage locale={locale} hero />
+          </div>
+          <div className="mx-auto mt-12 max-w-3xl text-start">
             <MatchQuiz guides={allGuides} />
           </div>
 
@@ -90,7 +96,7 @@ export default async function HomePage({
 
           <dl className="mx-auto mt-14 flex max-w-lg items-stretch justify-center divide-x divide-[var(--rule-strong)] rtl:divide-x-reverse border-t border-[var(--rule)] pt-8">
             {stats.map((stat) => (
-              <div key={stat.label} className="flex-1 px-4">
+              <div key={stat.label} className="flex-1 px-4 text-center">
                 <dt className="font-display text-3xl font-semibold text-[var(--teal-dark)]">
                   {stat.value}
                 </dt>

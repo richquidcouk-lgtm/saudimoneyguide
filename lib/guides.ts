@@ -12,6 +12,9 @@ export type GuideFrontmatter = {
   author: string;
   publishedAt: string;
   updatedAt?: string;
+  reviewedAt?: string;
+  reviewer?: string;
+  summary?: string[];
   slug: string;
 };
 
@@ -48,6 +51,9 @@ export function getGuideBySlug(locale: Locale, slug: string): Guide | null {
     author: String(data.author ?? "SaudiMoney"),
     publishedAt: String(data.publishedAt ?? ""),
     updatedAt: data.updatedAt ? String(data.updatedAt) : undefined,
+    reviewedAt: data.reviewedAt ? String(data.reviewedAt) : undefined,
+    reviewer: data.reviewer ? String(data.reviewer) : undefined,
+    summary: Array.isArray(data.summary) ? data.summary.map(String).filter(Boolean) : undefined,
     slug: String(data.slug ?? slug),
     content,
   };

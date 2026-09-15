@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
-import rehypeSlug from "rehype-slug";
+import { prepareArticle } from "@/components/articles/prepareArticle";
+import { ArticleMeta, ArticleOverview, ArticleTrust } from "@/components/articles/ArticleExtras";
+import ArticleImage from "@/components/articles/ArticleImage";
 import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/routing";
 import { getAllGuideSlugs, getAllGuides, getGuideBySlug } from "@/lib/guides";
+import { GUIDE_CATEGORY_MAP } from "@/lib/guide-categories";
 import { getRelatedBlogPosts } from "@/lib/blog";
-import { getMdxComponents } from "@/components/mdx-components";
 import { buildAlternatesFromMap, buildOpenGraph } from "@/lib/seo";
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema } from "@/lib/schema";
 import { extractFaqPairs } from "@/lib/faq";
@@ -65,9 +65,11 @@ export default async function GuidePage({
 
   const guide = getGuideBySlug(locale, slug);
   if (!guide) notFound();
+  const article = await prepareArticle(guide.content, locale);
 
   const otherGuides = getAllGuides(locale)
-    .filter((g) => g.slug !== slug)
+    .filter((g) => g.slug !== slug && (GUIDE_CATEGORY_MAP[g.slug] === GUIDE_CATEGORY_MAP[slug] || guide.content.includes('/guides/' + g.slug)))
+    .sort((a, b) => Number(guide.content.includes('/guides/' + b.slug)) - Number(guide.content.includes('/guides/' + a.slug)))
     .slice(0, 3);
   const relatedPosts = getRelatedBlogPosts(slug, locale);
 
@@ -112,31 +114,13 @@ export default async function GuidePage({
         <h1 className="font-display mt-2 text-3xl font-semibold leading-tight text-[var(--ink)] sm:text-4xl">
           {guide.title}
         </h1>
-        <p className="mt-3 text-[var(--ink-3)]">{guide.description}</p>
-        <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-[var(--ink-4)]">
-          {guide.author} · {guide.publishedAt}
-          {guide.updatedAt && <> · {locale === "ar" ? "آخر تحديث: " : "Updated: "}{guide.updatedAt}</>}
-        </p>
+        <ArticleMeta article={guide} locale={locale} minutes={article.readingMinutes} />
       </header>
 
-      <div className="mt-6">
-        <MDXRemote
-          source={guide.content}
-          components={getMdxComponents(locale)}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [rehypeSlug],
-            },
-            // All content is authored by us, not user-submitted, so it's
-            // safe to allow the JS-expression JSX props (object/array
-            // literals like steps={[...]}) our diagram components need —
-            // next-mdx-remote strips these by default as an XSS guard
-            // meant for untrusted MDX.
-            blockJS: false,
-          }}
-        />
-      </div>
+      <ArticleImage slug={slug} locale={locale} />
+      <ArticleOverview article={guide} locale={locale} headings={article.headings} toolSlugs={article.toolSlugs} />
+      <div className="article-body mt-8">{article.content}</div>
+      <ArticleTrust article={guide} locale={locale} sources={article.sources} />
 
       {relatedPosts.length > 0 && (
         <div className="mt-16 border-t border-[var(--rule)] pt-8">
@@ -165,7 +149,7 @@ export default async function GuidePage({
         <footer className="mt-10 border-t border-[var(--rule)] pt-8">
           <p className="eyebrow">{locale === "ar" ? "تابع القراءة" : "Keep Reading"}</p>
           <h2 className="font-display mt-2 text-lg font-semibold text-[var(--ink)]">
-            {locale === "ar" ? "أدلة أخرى" : "More guides"}
+            {locale === "ar" ? "أدلة أخرى" : "Related guides"}
           </h2>
           <ul className="mt-5 grid gap-3 sm:grid-cols-3">
             {otherGuides.map((g) => (

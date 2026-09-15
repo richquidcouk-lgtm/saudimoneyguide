@@ -1,0 +1,34 @@
+export const ARTICLE_IMAGES = {
+  banking: { src: '/images/banking.webp', en: 'Banking and transfers', ar: 'البنوك والتحويلات', altEn: 'Bank card, travel document and globe on a warm stone desk', altAr: 'بطاقة مصرفية ووثيقة سفر ومجسم للكرة الأرضية على مكتب حجري' },
+  salary: { src: '/images/salary.webp', en: 'Salary and working life', ar: 'الراتب والحياة العملية', altEn: 'Payslip, calendar and pen arranged on a teal desk pad', altAr: 'كشف راتب وتقويم وقلم على سطح مكتب بلون أخضر داكن' },
+  finance: { src: '/images/finance.webp', en: 'Planning a major purchase', ar: 'التخطيط للمشتريات الكبيرة', altEn: 'Model house, miniature car and keys on a teal desk', altAr: 'مجسم منزل وسيارة صغيرة ومفاتيح على مكتب' },
+  protection: { src: '/images/protection.webp', en: 'Insurance and protection', ar: 'التأمين والحماية', altEn: 'Medical case, documents and a model car sheltered by an umbrella', altAr: 'حقيبة طبية ومستندات ومجسم سيارة تحت مظلة' },
+  budget: { src: '/images/budget.webp', en: 'Everyday money decisions', ar: 'القرارات المالية اليومية', altEn: 'Groceries, calculator and notebook for household budget planning', altAr: 'مشتريات منزلية وآلة حاسبة ودفتر لتخطيط الميزانية' },
+  investing: { src: '/images/investing.webp', en: 'Saving for the future', ar: 'الادخار للمستقبل', altEn: 'Brass tokens in glass vessels beside a small olive plant', altAr: 'قطع معدنية في أوعية زجاجية بجوار نبتة زيتون صغيرة' },
+} as const;
+export type ArticleImageKey = keyof typeof ARTICLE_IMAGES;
+// Shared topic art, deliberately selected for every existing article in both locales.
+export const ARTICLE_IMAGE_MAP: Record<string, ArticleImageKey> = {
+  'simah-credit-score': 'banking',
+  'best-credit-cards-saudi-arabia': 'banking',
+  'bnpl-comparison-tamara-tabby': 'budget',
+  'expat-banking-saudi-arabia': 'banking',
+  'sending-money-from-saudi-arabia': 'banking',
+  'salary-advance-apps-saudi': 'salary',
+  'gosi-retirement-saudi-arabia': 'salary',
+  'freelancing-saudi-freelance-certificate': 'salary',
+  'home-finance-mortgages-saudi-arabia': 'finance',
+  'car-finance-saudi-arabia': 'finance',
+  'islamic-finance-tawarruq-murabaha': 'finance',
+  'health-insurance-expats-saudi-arabia': 'protection',
+  'car-insurance-saudi-arabia': 'protection',
+  'cost-of-living-saudi-arabia': 'budget',
+  'vat-saudi-arabia-explained': 'budget',
+  'investing-in-saudi-arabia-tadawul': 'investing',
+  'conventional-vs-islamic-finance': 'finance',
+  'first-90-days-financial-checklist-saudi-arabia': 'banking',
+  'leaving-saudi-arabia-financial-checklist': 'banking',
+  'salary-breakdown-saudi-arabia': 'salary',
+  'saudi-financial-system-explained': 'banking',
+  'saudi-national-vs-expat-financial-comparison': 'salary',
+};
