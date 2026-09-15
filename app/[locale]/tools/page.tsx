@@ -3,7 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { TOOLS } from "@/lib/tools-data";
-import { buildAlternates } from "@/lib/seo";
+import { buildAlternates, buildOpenGraph } from "@/lib/seo";
 import { ToolIcon } from "@/components/icons";
 
 const COPY = {
@@ -28,6 +28,7 @@ export async function generateMetadata({
     title: c.title,
     description: c.subtitle,
     alternates: buildAlternates("/tools", locale as Locale),
+    ...buildOpenGraph({ title: c.title, description: c.subtitle, path: "/tools", locale: locale as Locale }),
   };
 }
 

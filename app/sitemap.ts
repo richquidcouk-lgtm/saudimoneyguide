@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { getAllGuideSlugs } from "@/lib/guides";
+import { getAllBlogSlugs } from "@/lib/blog";
 import { TOOLS } from "@/lib/tools-data";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://saudimoneyguide.com";
 
-const STATIC_PATHS = ["", "/guides", "/tools", "/match", "/about", "/contact", "/privacy"];
+const STATIC_PATHS = ["", "/guides", "/blog", "/tools", "/match", "/about", "/contact", "/privacy"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -27,6 +28,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: now,
         changeFrequency: "monthly",
         priority: 0.8,
+      });
+    }
+
+    for (const slug of getAllBlogSlugs(locale)) {
+      entries.push({
+        url: `${BASE}/${locale}/blog/${encodeURIComponent(slug)}`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.7,
       });
     }
 

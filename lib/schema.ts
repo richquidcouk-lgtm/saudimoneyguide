@@ -9,20 +9,46 @@ export function buildOrganizationSchema() {
     name: "SaudiMoney",
     alternateName: "المال السعودي",
     url: BASE,
+    logo: `${BASE}/icon`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "richquidcouk@gmail.com",
+      contactType: "customer support",
+      areaServed: "SA",
+      availableLanguage: ["en", "ar"],
+    },
+  };
+}
+
+export function buildWebsiteSchema(locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "SaudiMoney",
+    url: `${BASE}/${locale}`,
+    inLanguage: locale,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${BASE}/${locale}/search?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
 export function buildArticleSchema({
   title,
   description,
-  slug,
+  path,
   author,
   publishedAt,
   locale,
 }: {
   title: string;
   description: string;
-  slug: string;
+  path: string;
   author: string;
   publishedAt: string;
   locale: Locale;
@@ -37,7 +63,7 @@ export function buildArticleSchema({
     datePublished: publishedAt,
     dateModified: publishedAt,
     inLanguage: locale,
-    mainEntityOfPage: `${BASE}/${locale}/guides/${slug}`,
+    mainEntityOfPage: `${BASE}/${locale}${path}`,
   };
 }
 

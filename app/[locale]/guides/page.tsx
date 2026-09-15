@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import GuideCard from "@/components/GuideCard";
 import { getAllGuides } from "@/lib/guides";
-import { buildAlternates } from "@/lib/seo";
+import { buildAlternates, buildOpenGraph } from "@/lib/seo";
 import { GUIDE_CATEGORIES, getCategoryForSlug } from "@/lib/guide-categories";
 import { CategoryIcon } from "@/components/icons";
 
@@ -18,6 +18,7 @@ export async function generateMetadata({
     title: t("title"),
     description: t("subtitle"),
     alternates: buildAlternates("/guides", locale as Locale),
+    ...buildOpenGraph({ title: t("title"), description: t("subtitle"), path: "/guides", locale: locale as Locale }),
   };
 }
 

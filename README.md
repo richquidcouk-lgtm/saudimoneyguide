@@ -34,6 +34,21 @@ Visit `http://localhost:3000` — it redirects to `/en` or `/ar` based on browse
   Anything tied to a regulatory rate that changes (GOSI %, gold price) is an
   editable input with a sensible default, not a hardcoded assumption —
   check `components/tools/*.tsx` for the exact caveats shown to users.
+- **A blog** (`/blog`, `content/blog/{locale}/{slug}.mdx`) for visual,
+  concept-level explainers (regulatory map, salary breakdown, Islamic vs
+  conventional finance, a newcomer's financial timeline) that deliberately
+  don't duplicate the reference-style guides — see "Adding a blog post"
+  below. Posts use three diagram components (`FlowSteps`, `CompareBars`,
+  `SplitCompare`) not available in guides.
+- **A "Find My Match" quiz** (`/match`, embedded directly in the homepage
+  hero) — two questions route a visitor to the right existing guide and
+  calculator. Entirely client-side (`components/MatchQuiz.tsx`,
+  `lib/quiz-data.ts`); nothing is stored or sent anywhere.
+- **Site search** (`/search`) — a simple client-side substring search across
+  every guide, blog post, and tool title/description/keywords
+  (`components/SearchClient.tsx`). Backs the `WebSite` `SearchAction`
+  structured data in the root layout, so it's also what Google's sitelinks
+  searchbox would hit.
 
 ## Adding a guide
 
@@ -56,6 +71,27 @@ Visit `http://localhost:3000` — it redirects to `/en` or `/ar` based on browse
 5. A guide only needs to exist in one language to publish — the other
    language's hreflang entry is simply omitted until it exists too (see
    "SEO" below).
+
+## Adding a blog post
+
+1. Write English content in `content/blog/en/{slug}.mdx`, Arabic in
+   `content/blog/ar/{slug}.mdx` — same same-slug convention as guides.
+2. Required frontmatter: the same fields as a guide, plus `relatedGuides`
+   (an array of guide slugs). This drives two things automatically: the
+   "Related full guides" block at the bottom of the post, and the reverse
+   "From the blog" block that appears on each of those guide pages
+   (`lib/blog.ts`'s `getRelatedBlogPosts`). No guide-side edit needed.
+3. Available in MDX, on top of everything guides have: `<FlowSteps steps={[{title, body}]} />`,
+   `<CompareBars title items={[{label, value, display}]} />`, and
+   `<SplitCompare left={{title, points}} right={{title, points}} />`
+   (`components/diagrams/`). These take object/array props, which is why
+   `MDXRemote`'s `blockJS` is explicitly set to `false` for guide and blog
+   pages — it defaults to `true` (stripping exactly this kind of prop) as
+   an XSS guard for untrusted MDX, which doesn't apply here since we author
+   every word of this content ourselves.
+4. Pick a topic that's a genuinely different angle from the guides, not a
+   visual reskin of one — a process/timeline, a comparison, or a map of how
+   several guides relate, not "guide content with a chart bolted on."
 
 ## Adding a tool
 
@@ -81,6 +117,28 @@ Visit `http://localhost:3000` — it redirects to `/en` or `/ar` based on browse
 - A guide that only exists in one language gets a self-canonical and no
   cross-language hreflang entry (rather than a broken link to a page that
   doesn't exist) — this is intentional, see `buildAlternatesFromMap`.
+- Every guide and blog post gets `FAQPage` JSON-LD automatically, generated
+  by parsing the existing "## Frequently Asked Questions" section of the
+  MDX content (`lib/faq.ts`) — there's no separate FAQ data to maintain, so
+  it can't drift out of sync with what's actually on the page.
+- Open Graph + Twitter Card metadata (`buildOpenGraph` in `lib/seo.ts`) on
+  every page. The preview image comes from `app/[locale]/opengraph-image.tsx`
+  (generated at build time via `next/og`, inherited by every nested route).
+  **It intentionally renders the English "SaudiMoney" wordmark on both
+  locales** — Satori (the renderer behind `ImageResponse`) throws on real
+  Arabic text (`lookupType: 5 - substFormat: 3 is not yet supported`,
+  a contextual-substitution/letter-joining feature it doesn't implement).
+  Confirmed by testing the short brand name alone, not just longer text.
+  Same constraint applies to `app/icon.tsx` (the favicon).
+- `proxy.ts`'s middleware matcher excludes `icon`, `opengraph-image`, etc.
+  on top of `api`/`_next`/dotted-extension paths — these Next.js metadata
+  file-convention routes are root-level, not per-locale, so without the
+  exclusion the locale-detection middleware 404s the favicon by redirecting
+  `/icon` to `/en/icon`.
+- `WebSite` JSON-LD with a `SearchAction` pointing at `/search` (root
+  layout) — for Google's sitelinks searchbox. `/search` is `noindex,follow`
+  (thin per-query content) but must stay crawlable and actually functional
+  for the SearchAction to be valid, not decorative.
 
 ## Environment variables
 
@@ -95,9 +153,11 @@ actually deliver emails / forward affiliate events.
   the tracked URL once a partnership is signed; wire up
   `AFFILIATE_TRACKING_WEBHOOK_URL` to forward click events to Refersion/Tapfiliate/CJ)
 - SendGrid account + template (currently logs locally; wire up
-  `SENDGRID_API_KEY` / `SENDGRID_LIST_ID`)
-- Analytics (Vercel Analytics / PostHog)
-- Real `about`/`contact`/`privacy` copy — these are placeholders
+  `SENDGRID_API_KEY` / `SENDGRID_LIST_ID`) — this also means the contact
+  page's email is a `mailto:` link, not a form, since there's no delivery
+  mechanism yet to POST a form to
+- Analytics (Vercel Analytics / PostHog) — the privacy policy explicitly
+  says none is running yet; update it in the same change that adds one
 - `docs/planning/` is historical context only (the original AI-generated
   brief this project started from) — it's not the content roadmap anymore.
   Topic selection is now driven by real personal-finance search categories,

@@ -30,6 +30,11 @@ export default function Footer() {
                   {t("guides.title")}
                 </Link>
               </li>
+              <li>
+                <Link href="/blog" className="text-[#DCEAE4] transition-colors hover:text-white">
+                  {t("nav.blog")}
+                </Link>
+              </li>
             </ul>
           </div>
 

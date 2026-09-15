@@ -40,13 +40,13 @@ export default function Logo({
             which doubles it as a "money" cue too since the mark sits inside
             a coin medallion. */}
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" className="relative" aria-hidden="true">
-          <path d="M8 19h8" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M12 19c0-3 -0.4-6 0-11" stroke="var(--gold-soft)" strokeWidth="1.6" strokeLinecap="round" />
-          <path d="M12 8c-3-1.5-7.5-1.2-9.5 2.5" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M12 8c-2.2-2-5-2.7-6-0.7" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M12 8c0-1.5 0-2.5 0-4.5" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M12 8c2.2-2 5-2.7 6-0.7" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M12 8c3-1.5 7.5-1.2 9.5 2.5" stroke="var(--gold-soft)" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M8,19 L16,19" stroke="var(--gold-soft)" strokeWidth="1.6" strokeLinecap="round" />
+          <path d="M12,19 L12,8" stroke="var(--gold-soft)" strokeWidth="1.8" strokeLinecap="round" />
+          <path d="M12,8 L3,11" stroke="var(--gold-soft)" strokeWidth="1.6" strokeLinecap="round" />
+          <path d="M12,8 L5,3" stroke="var(--gold-soft)" strokeWidth="1.6" strokeLinecap="round" />
+          <path d="M12,8 L12,1" stroke="var(--gold-soft)" strokeWidth="1.6" strokeLinecap="round" />
+          <path d="M12,8 L19,3" stroke="var(--gold-soft)" strokeWidth="1.6" strokeLinecap="round" />
+          <path d="M12,8 L21,11" stroke="var(--gold-soft)" strokeWidth="1.6" strokeLinecap="round" />
         </svg>
       </span>
       {!compact && (

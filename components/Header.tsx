@@ -11,8 +11,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   const navItems = [
-    { href: "/", label: t("nav.home") },
     { href: "/guides", label: t("nav.guides") },
+    { href: "/blog", label: t("nav.blog") },
     { href: "/tools", label: t("nav.tools") },
     { href: "/match", label: t("nav.match") },
     { href: "/about", label: t("nav.about") },
@@ -38,27 +38,49 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
+          <Link
+            href="/search"
+            aria-label={t("nav.search")}
+            className="flex h-9 w-9 items-center justify-center rounded-md text-[var(--ink-3)] transition-colors hover:bg-[var(--teal-soft)] hover:text-[var(--teal-dark)]"
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.8" />
+              <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+          </Link>
           <LanguageSwitcher />
         </div>
 
-        <button
-          type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--rule)] md:hidden"
-          onClick={() => setOpen((o) => !o)}
-          aria-label="Toggle menu"
-          aria-expanded={open}
-        >
-          <span className="sr-only">Menu</span>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path
-              d="M2 5h14M2 13h14"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
+        <div className="flex items-center gap-1 md:hidden">
+          <Link
+            href="/search"
+            aria-label={t("nav.search")}
+            className="flex h-9 w-9 items-center justify-center rounded-md text-[var(--ink-3)]"
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.8" />
+              <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+          </Link>
+          <button
+            type="button"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--rule)]"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Toggle menu"
+            aria-expanded={open}
+          >
+            <span className="sr-only">Menu</span>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path
+                d="M2 5h14M2 13h14"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="h-px bg-gradient-to-r from-transparent via-[var(--gold)]/50 to-transparent" />

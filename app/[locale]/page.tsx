@@ -7,6 +7,7 @@ import FAQ from "@/components/FAQ";
 import EmailForm from "@/components/EmailForm";
 import MatchQuiz from "@/components/MatchQuiz";
 import { getAllGuides } from "@/lib/guides";
+import { getAllBlogPosts } from "@/lib/blog";
 import { buildAlternates } from "@/lib/seo";
 import { TOOLS } from "@/lib/tools-data";
 import { ToolIcon, ShieldCheckIcon, GlobeIcon, SparkleIcon } from "@/components/icons";
@@ -41,6 +42,7 @@ export default async function HomePage({
   const t = await getTranslations();
   const allGuides = getAllGuides(locale);
   const guides = allGuides.slice(0, 3);
+  const blogPosts = getAllBlogPosts(locale).slice(0, 3);
   const benefits = t.raw("benefits.items") as { title: string; description: string }[];
   const faqItems = t.raw("faq.items") as { question: string; answer: string }[];
 
@@ -150,6 +152,44 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* From the blog */}
+      {blogPosts.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow">{locale === "ar" ? "بشرح بصري" : "Explained Visually"}</p>
+              <h2 className="font-display mt-2 text-2xl font-semibold text-[var(--ink)] sm:text-3xl">
+                {locale === "ar" ? "من المدونة" : "From the Blog"}
+              </h2>
+            </div>
+            <Link
+              href="/blog"
+              className="nav-link hidden shrink-0 text-sm font-bold text-[var(--teal-dark)] sm:block"
+            >
+              {locale === "ar" ? "عرض كل المقالات ←" : "View all posts →"}
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-5 sm:grid-cols-3">
+            {blogPosts.map((post) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="card-premium group flex flex-col p-5">
+                <span className="text-xs font-semibold uppercase tracking-wide text-[var(--ink-4)]">
+                  {post.publishedAt}
+                </span>
+                <h3 className="font-display mt-2 text-lg font-semibold leading-snug text-[var(--ink)] group-hover:text-[var(--teal-dark)]">
+                  {post.title}
+                </h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--ink-3)]">
+                  {post.description}
+                </p>
+                <span className="mt-4 text-sm font-bold text-[var(--teal-dark)]">
+                  {locale === "ar" ? "اقرأ المقال ←" : "Read post →"}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Benefits */}
       <section className="py-20">

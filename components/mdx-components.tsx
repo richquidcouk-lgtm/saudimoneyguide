@@ -1,5 +1,8 @@
 import AffiliateLink from "@/components/AffiliateLink";
 import Callout from "@/components/mdx/Callout";
+import FlowSteps from "@/components/diagrams/FlowSteps";
+import CompareBars from "@/components/diagrams/CompareBars";
+import SplitCompare from "@/components/diagrams/SplitCompare";
 import type { MDXComponents } from "mdx/types";
 import type { Locale } from "@/i18n/routing";
 import type { AnchorHTMLAttributes } from "react";
@@ -34,6 +37,9 @@ export function getMdxComponents(locale: Locale): MDXComponents {
   return {
     AffiliateLink,
     Callout,
+    FlowSteps,
+    CompareBars,
+    SplitCompare,
     h2: (props) => (
       <h2
         className="font-display mt-12 scroll-mt-24 text-2xl font-semibold text-[var(--ink)]"

@@ -6,8 +6,9 @@ import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/routing";
 import { getAllGuideSlugs, getAllGuides, getGuideBySlug } from "@/lib/guides";
+import { getRelatedBlogPosts } from "@/lib/blog";
 import { getMdxComponents } from "@/components/mdx-components";
-import { buildAlternatesFromMap } from "@/lib/seo";
+import { buildAlternatesFromMap, buildOpenGraph } from "@/lib/seo";
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema } from "@/lib/schema";
 import { extractFaqPairs } from "@/lib/faq";
 
@@ -43,6 +44,13 @@ export async function generateMetadata({
     keywords: guide.keywords,
     authors: [{ name: guide.author }],
     alternates,
+    ...buildOpenGraph({
+      title: guide.title,
+      description: guide.description,
+      path: `/guides/${slug}`,
+      locale: locale as Locale,
+      type: "article",
+    }),
   };
 }
 
@@ -61,11 +69,12 @@ export default async function GuidePage({
   const otherGuides = getAllGuides(locale)
     .filter((g) => g.slug !== slug)
     .slice(0, 3);
+  const relatedPosts = getRelatedBlogPosts(slug, locale);
 
   const articleSchema = buildArticleSchema({
     title: guide.title,
     description: guide.description,
-    slug: guide.slug,
+    path: `/guides/${guide.slug}`,
     author: guide.author,
     publishedAt: guide.publishedAt,
     locale,
@@ -117,12 +126,41 @@ export default async function GuidePage({
               remarkPlugins: [remarkGfm],
               rehypePlugins: [rehypeSlug],
             },
+            // All content is authored by us, not user-submitted, so it's
+            // safe to allow the JS-expression JSX props (object/array
+            // literals like steps={[...]}) our diagram components need —
+            // next-mdx-remote strips these by default as an XSS guard
+            // meant for untrusted MDX.
+            blockJS: false,
           }}
         />
       </div>
 
+      {relatedPosts.length > 0 && (
+        <div className="mt-16 border-t border-[var(--rule)] pt-8">
+          <p className="eyebrow">{locale === "ar" ? "بشرح بصري" : "Explained Visually"}</p>
+          <h2 className="font-display mt-2 text-lg font-semibold text-[var(--ink)]">
+            {locale === "ar" ? "من المدونة" : "From the blog"}
+          </h2>
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+            {relatedPosts.map((post) => (
+              <li key={post.slug}>
+                <a href={`/${locale}/blog/${post.slug}`} className="card-premium group flex h-full flex-col p-4">
+                  <span className="text-sm font-bold leading-snug text-[var(--ink)] group-hover:text-[var(--teal-dark)]">
+                    {post.title}
+                  </span>
+                  <span className="mt-2 text-xs leading-relaxed text-[var(--ink-3)]">
+                    {post.description}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {otherGuides.length > 0 && (
-        <footer className="mt-16 border-t border-[var(--rule)] pt-8">
+        <footer className="mt-10 border-t border-[var(--rule)] pt-8">
           <p className="eyebrow">{locale === "ar" ? "تابع القراءة" : "Keep Reading"}</p>
           <h2 className="font-display mt-2 text-lg font-semibold text-[var(--ink)]">
             {locale === "ar" ? "أدلة أخرى" : "More guides"}

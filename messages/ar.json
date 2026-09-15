@@ -6,10 +6,12 @@
   "nav": {
     "home": "الرئيسية",
     "guides": "الأدلة",
+    "blog": "المدونة",
     "tools": "الأدوات",
     "match": "اعثر على الأنسب لك",
     "about": "من نحن",
-    "contact": "تواصل معنا"
+    "contact": "تواصل معنا",
+    "search": "بحث"
   },
   "language": {
     "switchTo": "English"

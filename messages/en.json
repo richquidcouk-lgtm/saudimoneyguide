@@ -6,10 +6,12 @@
   "nav": {
     "home": "Home",
     "guides": "Guides",
+    "blog": "Blog",
     "tools": "Tools",
     "match": "Find My Match",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "search": "Search"
   },
   "language": {
     "switchTo": "العربية"

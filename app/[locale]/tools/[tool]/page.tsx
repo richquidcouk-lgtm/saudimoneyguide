@@ -4,7 +4,7 @@ import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { TOOLS, getToolBySlug, getToolKeywords } from "@/lib/tools-data";
 import { TOOL_COMPONENTS } from "@/components/tools/registry";
-import { buildAlternates } from "@/lib/seo";
+import { buildAlternates, buildOpenGraph } from "@/lib/seo";
 import { ToolIcon } from "@/components/icons";
 
 export function generateStaticParams() {
@@ -29,6 +29,7 @@ export async function generateMetadata({
     description,
     keywords: getToolKeywords(slug, locale),
     alternates: buildAlternates(`/tools/${slug}`, locale as Locale),
+    ...buildOpenGraph({ title, description, path: `/tools/${slug}`, locale: locale as Locale }),
   };
 }
 

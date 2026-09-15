@@ -6,7 +6,8 @@ import { notFound } from "next/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { buildOrganizationSchema } from "@/lib/schema";
+import { buildOrganizationSchema, buildWebsiteSchema } from "@/lib/schema";
+import { buildOpenGraph } from "@/lib/seo";
 import "../globals.css";
 
 const inter = Inter({
@@ -56,6 +57,12 @@ export async function generateMetadata({
       template: `%s | ${t("name")}`,
     },
     description: t("tagline"),
+    ...buildOpenGraph({
+      title: t("name"),
+      description: t("tagline"),
+      path: "",
+      locale: locale as Locale,
+    }),
   };
 }
 
@@ -84,6 +91,10 @@ export default async function LocaleLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(buildOrganizationSchema()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildWebsiteSchema(locale)) }}
         />
         <NextIntlClientProvider>
           <Header />

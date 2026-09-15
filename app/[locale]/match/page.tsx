@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { getAllGuides } from "@/lib/guides";
-import { buildAlternates } from "@/lib/seo";
+import { buildAlternates, buildOpenGraph } from "@/lib/seo";
 import MatchQuiz from "@/components/MatchQuiz";
 
 const COPY = {
@@ -29,6 +29,7 @@ export async function generateMetadata({
     title: c.title,
     description: c.subtitle,
     alternates: buildAlternates("/match", locale as Locale),
+    ...buildOpenGraph({ title: c.title, description: c.subtitle, path: "/match", locale: locale as Locale }),
   };
 }
 

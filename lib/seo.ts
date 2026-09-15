@@ -56,3 +56,43 @@ export function buildAlternatesFromMap(
     languages,
   };
 }
+
+const OG_LOCALE: Record<Locale, string> = { en: "en_US", ar: "ar_SA" };
+
+/**
+ * Consistent Open Graph + Twitter Card metadata for a page. The actual
+ * preview image comes from the nearest `opengraph-image.tsx` file
+ * convention (inherited from app/[locale]/opengraph-image.tsx unless a
+ * route defines its own) — Next.js wires that up automatically, so this
+ * only needs to supply the text fields and locale reciprocity.
+ */
+export function buildOpenGraph({
+  title,
+  description,
+  path,
+  locale,
+  type = "website",
+}: {
+  title: string;
+  description: string;
+  path: string;
+  locale: Locale;
+  type?: "website" | "article";
+}) {
+  return {
+    openGraph: {
+      title,
+      description,
+      url: `${BASE}/${locale}${path}`,
+      siteName: "SaudiMoney",
+      locale: OG_LOCALE[locale],
+      alternateLocale: routing.locales.filter((l) => l !== locale).map((l) => OG_LOCALE[l]),
+      type,
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title,
+      description,
+    },
+  };
+}
