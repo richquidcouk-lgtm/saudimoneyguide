@@ -8,7 +8,8 @@ export type QuizCategoryId =
   | "zakat"
   | "investing"
   | "insurance"
-  | "cost-of-living";
+  | "cost-of-living"
+  | "remittance";
 
 export type QuizCategory = {
   id: QuizCategoryId;
@@ -24,7 +25,8 @@ export type QuizCategory = {
     | "zakat"
     | "invest"
     | "insurance"
-    | "living";
+    | "living"
+    | "remit";
   guideSlugs: string[];
   toolSlugs: string[];
   /** Only categories where nationality meaningfully changes the answer get a note. */
@@ -135,6 +137,14 @@ export const QUIZ_CATEGORIES: QuizCategory[] = [
     icon: "living",
     guideSlugs: ["cost-of-living-saudi-arabia", "vat-saudi-arabia-explained"],
     toolSlugs: ["savings-goal-calculator", "vat-calculator"],
+  },
+  {
+    id: "remittance",
+    labelEn: "Sending Money Home",
+    labelAr: "إرسال الأموال لبلدك",
+    icon: "remit",
+    guideSlugs: ["sending-money-from-saudi-arabia"],
+    toolSlugs: ["currency-converter"],
   },
 ];
 

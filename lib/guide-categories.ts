@@ -63,6 +63,7 @@ export const GUIDE_CATEGORY_MAP: Record<string, string> = {
   "best-credit-cards-saudi-arabia": "credit-borrowing",
   "bnpl-comparison-tamara-tabby": "credit-borrowing",
   "expat-banking-saudi-arabia": "credit-borrowing",
+  "sending-money-from-saudi-arabia": "credit-borrowing",
 
   "salary-advance-apps-saudi": "salary-work",
   "gosi-retirement-saudi-arabia": "salary-work",

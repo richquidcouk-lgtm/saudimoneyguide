@@ -221,6 +221,7 @@ const QUIZ_ICON_MAP: Record<string, (props: IconProps) => ReactElement> = {
   invest: TrendUpIcon,
   insurance: ShieldCheckIcon,
   living: BasketIcon,
+  remit: ExchangeIcon,
 };
 
 export function QuizIcon({ icon, className }: { icon: string; className?: string }) {
