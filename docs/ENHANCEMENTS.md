@@ -9,7 +9,7 @@ Updated 15 September 2026. This tracks the site audit and subsequent requested w
 - Navigation, Arabic search and accessibility improvements.
 - Article overview, approximate reading time, linked contents generated from rendered headings, topic-related guides and calculator shortcuts.
 - Author information and correction links; optional real reviewer/review-date fields. Existing cited links collected as references.
-- Bilingual homepage with prominent Riyadh illustration; article imagery selected by topic, optimized locally and labelled as illustrations.
+- Bilingual homepage with prominent Riyadh illustration; article imagery selected by topic, stored losslessly and served at quality 95 without visible captions.
 
 ## Pending
 

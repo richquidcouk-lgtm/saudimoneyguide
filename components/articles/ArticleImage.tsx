@@ -7,7 +7,6 @@ export default function ArticleImage({ slug, locale }: { slug: string; locale: L
   const image = ARTICLE_IMAGES[key];
   const ar = locale === 'ar';
   return <figure className="mt-8 overflow-hidden rounded-2xl border border-[var(--rule)] bg-[var(--paper)]">
-    <div className="relative aspect-[2/1] sm:aspect-[5/2]"><Image src={image.src} fill sizes="(max-width: 768px) 100vw, 720px" alt={ar ? image.altAr : image.altEn} className="object-cover object-center" /></div>
-    <figcaption className="flex flex-wrap justify-between gap-2 px-4 py-3 text-xs leading-relaxed text-[var(--ink-3)]"><span>{ar ? image.ar : image.en}</span><span>{ar ? 'رسم توضيحي مولّد بالذكاء الاصطناعي' : 'AI-generated editorial illustration'}</span></figcaption>
+    <div className="relative aspect-[2/1] sm:aspect-[5/2]"><Image quality={95} src={image.src} fill sizes="(max-width: 768px) 100vw, 720px" alt={ar ? image.altAr : image.altEn} className="object-cover object-center" /></div>
   </figure>;
 }

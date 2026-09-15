@@ -189,4 +189,4 @@ Guides and blog posts share server-rendered contents links, approximate reading 
 
 Optional frontmatter: `summary` (a list of concise takeaways), `reviewer` and `reviewedAt` (set together only after a real review). Without takeaways, the existing description is used. No review date or reviewer is inferred. Sources are existing cited links, not a claim that every article has been verified.
 
-The homepage skyline and topic-specific article assets are AI-generated editorial illustrations, labelled in both languages and served locally through Next Image. See `docs/image-assets.md` for provenance.
+The homepage skyline and topic-specific article assets are AI-generated editorial illustrations, served locally through Next Image at quality 95, using lossless source assets. See `docs/image-assets.md` for provenance.

@@ -4,6 +4,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  images: { qualities: [75, 95] },
   // Next's dev server blocks cross-origin requests to its internal asset/HMR
   // endpoints by default (since 14.1) — without this, loading the dev server
   // from a LAN IP (e.g. testing on a phone) serves the initial HTML fine but

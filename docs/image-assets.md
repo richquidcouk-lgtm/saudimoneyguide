@@ -1,6 +1,6 @@
 # SaudiMoney editorial images
 
-Generated with the built-in imagegen tool on 15 September 2026. These are artistic interpretations, not location photographs; captions disclose this in English and Arabic. Local WebP assets are optimized by Next Image, with reserved dimensions and hero preloading.
+Generated with the built-in imagegen tool on 15 September 2026. These are artistic interpretations, not location photographs; visible captions were removed at the owner?s request. Provenance is retained here. Local WebP assets are optimized by Next Image, with reserved dimensions and hero preloading.
 
 ## Riyadh
 
