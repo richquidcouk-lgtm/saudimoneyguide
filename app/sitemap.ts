@@ -4,7 +4,7 @@ import { getAllGuideSlugs } from "@/lib/guides";
 import { getAllBlogSlugs } from "@/lib/blog";
 import { TOOLS } from "@/lib/tools-data";
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://saudimoneyguide.com";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.saudimoneyguide.com";
 
 const STATIC_PATHS = ["", "/guides", "/blog", "/tools", "/match", "/about", "/contact", "/privacy"];
 

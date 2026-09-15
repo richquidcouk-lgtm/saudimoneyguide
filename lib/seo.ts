@@ -1,6 +1,6 @@
 import { routing, type Locale } from "@/i18n/routing";
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://saudimoneyguide.com";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.saudimoneyguide.com";
 
 /**
  * Builds `alternates` for Next.js Metadata given a path that is the SAME

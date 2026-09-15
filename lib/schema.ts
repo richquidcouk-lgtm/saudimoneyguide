@@ -1,6 +1,6 @@
 import type { Locale } from "@/i18n/routing";
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://saudimoneyguide.com";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.saudimoneyguide.com";
 
 export function buildOrganizationSchema() {
   return {
