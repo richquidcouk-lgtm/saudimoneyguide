@@ -9,6 +9,18 @@ export const ARTICLE_IMAGES = {
 export type ArticleImageKey = keyof typeof ARTICLE_IMAGES;
 // Shared topic art, deliberately selected for every existing article in both locales.
 export const ARTICLE_IMAGE_MAP: Record<string, ArticleImageKey> = {
+  "end-of-service-benefits-saudi-arabia": "salary",
+  "compare-salary-packages-saudi-arabia": "salary",
+  "apr-vs-flat-rate-saudi-personal-finance": "finance",
+  "early-settlement-personal-finance-saudi": "banking",
+  "remittance-fees-exchange-rate-saudi": "banking",
+  "rent-budget-ejar-saudi-arabia": "finance",
+  "car-finance-balloon-payment-saudi": "finance",
+  "insurance-claim-rejected-saudi-arabia": "protection",
+  "emergency-fund-saudi-arabia": "budget",
+  "sah-sukuk-saudi-savings": "investing",
+  "zakat-savings-gold-checklist-saudi": "investing",
+  "bank-fraud-complaint-saudi-arabia": "protection",
   'simah-credit-score': 'banking',
   'best-credit-cards-saudi-arabia': 'banking',
   'bnpl-comparison-tamara-tabby': 'budget',

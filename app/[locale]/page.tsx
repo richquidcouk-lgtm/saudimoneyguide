@@ -1,3 +1,4 @@
+import TopicLinks from "@/components/TopicLinks";
 import SaudiCityImage from "@/components/SaudiCityImage";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -106,6 +107,8 @@ export default async function HomePage({
           </dl>
         </div>
       </section>
+
+      <section className="mx-auto max-w-6xl px-4 pt-12 sm:px-6"><h2 className="font-display text-2xl font-semibold">{locale === "ar" ? "استكشف حسب الموضوع" : "Explore by money topic"}</h2><TopicLinks locale={locale} /></section>
 
       {/* Featured guides */}
       {guides.length > 0 && (

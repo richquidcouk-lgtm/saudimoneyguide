@@ -19,7 +19,7 @@ export const GUIDE_CATEGORIES: GuideCategory[] = [
   {
     id: "salary-work",
     labelEn: "Salary, GOSI & Work",
-    labelAr: "الراتب وجوسي والعمل",
+    labelAr: "الراتب والتأمينات والعمل",
     descriptionEn: "Take-home pay, end-of-service, retirement, and working independently.",
     descriptionAr: "صافي الراتب ومكافأة نهاية الخدمة والتقاعد والعمل المستقل.",
     icon: "salary",

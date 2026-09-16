@@ -85,7 +85,7 @@ export default async function GuidesIndexPage({
                   </span>
                   <div>
                     <h2 className="font-display text-xl font-semibold text-[var(--ink)] sm:text-2xl">
-                      {locale === "ar" ? category.labelAr : category.labelEn}
+                      <a href={`/${locale}/topics/${category.id}`} className="hover:text-[var(--teal-dark)]">{locale === "ar" ? category.labelAr : category.labelEn}</a>
                     </h2>
                     <p className="mt-1 text-sm text-[var(--ink-3)]">
                       {locale === "ar" ? category.descriptionAr : category.descriptionEn}

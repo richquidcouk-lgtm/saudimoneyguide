@@ -1,3 +1,4 @@
+import TopicLinks from "@/components/TopicLinks";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -7,17 +8,17 @@ import { buildAlternates, buildOpenGraph } from "@/lib/seo";
 
 const COPY = {
   en: {
-    title: "The Blog",
+    title: "Saudi Personal Finance Articles",
     subtitle:
-      "Visual explainers on how personal finance actually works in Saudi Arabia — the concepts and connections behind our guides, not a repeat of them.",
+      "Practical Saudi finance articles on salary, borrowing, rent, insurance, transfers and saving, with worked examples and relevant calculators.",
     eyebrow: "Explained Visually",
     empty: "No posts published yet — check back soon.",
     readPost: "Read post →",
   },
   ar: {
-    title: "المدونة",
+    title: "مقالات المال والتمويل في السعودية",
     subtitle:
-      "شروحات بصرية لكيفية عمل التمويل الشخصي فعليًا في السعودية — المفاهيم والروابط خلف أدلتنا، لا تكرارًا لها.",
+      "مقالات عملية عن الرواتب والتمويل والسكن والتأمين والتحويلات والادخار في السعودية، مع أمثلة وحاسبات مرتبطة بالموضوع.",
     eyebrow: "بشرح بصري",
     empty: "لا توجد مقالات منشورة بعد — تابعنا قريبًا.",
     readPost: "اقرأ المقال ←",
@@ -57,6 +58,7 @@ export default async function BlogIndexPage({
         {c.title}
       </h1>
       <p className="mt-2 max-w-2xl text-[var(--ink-3)]">{c.subtitle}</p>
+      <TopicLinks locale={locale} />
 
       {posts.length === 0 ? (
         <p className="mt-10 text-sm text-[var(--ink-3)]">{c.empty}</p>

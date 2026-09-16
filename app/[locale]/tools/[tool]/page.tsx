@@ -1,3 +1,4 @@
+import ToolReading from "@/components/tools/ToolReading";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -66,6 +67,7 @@ export default async function ToolPage({
         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[var(--gold)] via-[var(--teal-mid)] to-[var(--gold)]" />
         <Calculator locale={locale} />
       </div>
+      <ToolReading slug={slug} locale={locale as Locale} />
     </section>
   );
 }

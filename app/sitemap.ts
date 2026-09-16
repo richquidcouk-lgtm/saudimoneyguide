@@ -1,3 +1,4 @@
+import { TOPICS } from "@/lib/topics";
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { getAllGuides } from "@/lib/guides";
@@ -6,7 +7,7 @@ import { TOOLS } from "@/lib/tools-data";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.saudimoneyguide.com";
 
-const STATIC_PATHS = ["", "/guides", "/blog", "/tools", "/match", "/about", "/contact", "/privacy"];
+const STATIC_PATHS = ["", "/guides", "/blog", "/tools", "/match", "/about", "/contact", "/privacy", "/topics"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
@@ -18,6 +19,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: "weekly",
         priority: path === "" ? 1 : 0.7,
       });
+    }
+
+    for (const topic of TOPICS) {
+      entries.push({ url: `${BASE}/${locale}/topics/${topic.id}`, changeFrequency: "monthly", priority: 0.8 });
     }
 
     for (const guide of getAllGuides(locale)) {

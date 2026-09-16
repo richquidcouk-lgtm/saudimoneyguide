@@ -1,3 +1,4 @@
+import TopicLinks from "@/components/TopicLinks";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -49,6 +50,7 @@ export default async function ToolsIndexPage({
         {c.title}
       </h1>
       <p className="mt-2 max-w-2xl text-[var(--ink-3)]">{c.subtitle}</p>
+      <TopicLinks locale={locale} />
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {TOOLS.map((tool) => (

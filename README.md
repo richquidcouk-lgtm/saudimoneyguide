@@ -190,3 +190,7 @@ Guides and blog posts share server-rendered contents links, approximate reading 
 Optional frontmatter: `summary` (a list of concise takeaways), `reviewer` and `reviewedAt` (set together only after a real review). Without takeaways, the existing description is used. No review date or reviewer is inferred. Sources are existing cited links, not a claim that every article has been verified.
 
 The homepage skyline and topic-specific article assets are AI-generated editorial illustrations, served locally through Next Image at quality 95, using lossless source assets. See `docs/image-assets.md` for provenance.
+
+## Search coverage
+
+The blog now includes 18 topics in both languages. Six `/topics` hubs connect the 16 guides, articles and 12 existing calculators. See `docs/SEO-CONTENT-ROADMAP.md` for keyword intent mapping, source/volume limitations and remaining research. Tool pages link to reading that explicitly references the tool.
