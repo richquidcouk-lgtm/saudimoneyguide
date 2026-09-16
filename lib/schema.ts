@@ -6,6 +6,7 @@ export function buildOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${BASE}/#organization`,
     name: "SaudiMoney",
     alternateName: "المال السعودي",
     url: BASE,
@@ -24,6 +25,8 @@ export function buildWebsiteSchema(locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${BASE}/${locale}#website`,
+    publisher: { "@id": `${BASE}/#organization` },
     name: "SaudiMoney",
     url: `${BASE}/${locale}`,
     inLanguage: locale,
@@ -45,6 +48,9 @@ export function buildArticleSchema({
   author,
   publishedAt,
   updatedAt,
+  image,
+  summary,
+  sources = [],
   locale,
 }: {
   title: string;
@@ -53,15 +59,24 @@ export function buildArticleSchema({
   author: string;
   publishedAt: string;
   updatedAt?: string;
+  image?: string;
+  summary?: string[];
+  sources?: { title: string; href: string }[];
   locale: Locale;
 }) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
+    "@id": `${BASE}/${locale}${path}#article`,
+    url: `${BASE}/${locale}${path}`,
+    isPartOf: { "@id": `${BASE}/${locale}#website` },
+    ...(image ? { image: `${BASE}${image}` } : {}),
+    ...(summary?.length ? { abstract: summary.join(" ") } : {}),
+    ...(sources.length ? { citation: sources.map(source => ({ "@type": "CreativeWork", name: source.title, url: source.href })) } : {}),
     headline: title,
     description,
-    author: { "@type": "Organization", name: author },
-    publisher: { "@type": "Organization", name: "SaudiMoney" },
+    author: { "@type": "Organization", name: author, url: `${BASE}/${locale}/about` },
+    publisher: { "@id": `${BASE}/#organization` },
     datePublished: publishedAt,
     dateModified: updatedAt ?? publishedAt,
     inLanguage: locale,

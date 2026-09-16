@@ -1,3 +1,4 @@
+import { ARTICLE_IMAGES, ARTICLE_IMAGE_MAP } from "@/lib/article-images";
 import { notFound } from "next/navigation";
 import { prepareArticle } from "@/components/articles/prepareArticle";
 import { ArticleMeta, ArticleOverview, ArticleTrust } from "@/components/articles/ArticleExtras";
@@ -80,6 +81,9 @@ export default async function GuidePage({
     author: guide.author,
     publishedAt: guide.publishedAt,
     updatedAt: guide.updatedAt,
+    image: ARTICLE_IMAGE_MAP[slug] ? ARTICLE_IMAGES[ARTICLE_IMAGE_MAP[slug]].src : undefined,
+    summary: guide.summary,
+    sources: article.sources,
     locale,
   });
   const breadcrumbSchema = buildBreadcrumbSchema(
@@ -97,16 +101,16 @@ export default async function GuidePage({
     <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, "\\u003c") }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
       />
       {faqSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c") }}
         />
       )}
       <header className="border-b border-[var(--rule)] pb-6">

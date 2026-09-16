@@ -5,6 +5,12 @@ const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.saudimoneyguide.co
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
+      // Search and user-directed retrieval; wildcard access was already allowed.
+      {
+        userAgent: ["OAI-SearchBot", "ChatGPT-User", "Claude-SearchBot", "Claude-User"],
+        allow: "/",
+        disallow: ["/api/"],
+      },
       {
         userAgent: "*",
         allow: "/",
